@@ -1,0 +1,49 @@
+# K&S Fyzio – Apache (WebSupport hosting)
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+ServerSignature Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS (not on localhost / Laragon *.test)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteCond %{HTTP_HOST} !(localhost|\.test$|\.local$|^127\.|^192\.168\.) [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Never expose project internals
+  RewriteRule ^(app|src|scripts|node_modules|dist)(/|$) - [F,L]
+  RewriteRule ^(package(-lock)?\.json|README\.md|\.git.*|\.env.*)$ - [F,L]
+
+  # Front controller (clean URLs, sitemap.xml, robots.txt)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'self'"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+# CSS/JS are cache-busted with ?v=<filemtime> by the asset() helper.
+

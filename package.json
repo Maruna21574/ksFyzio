@@ -1,0 +1,21 @@
+{
+  "name": "ksfyzio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "K&S Fyzio – web pre veterinárnu fyzioterapiu psov (PHP + SCSS + JS, build cez Node.js)",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:css": "node scripts/build.mjs css",
+    "build:js": "node scripts/build.mjs js",
+    "watch:css": "sass --watch --load-path=node_modules src/scss/main.scss:assets/css/main.css",
+    "watch:js": "esbuild src/js/main.js --bundle --outfile=assets/js/main.js --watch",
+    "dist": "npm run build && node scripts/dist.mjs"
+  },
+  "devDependencies": {
+    "@fontsource-variable/nunito": "^5.3.0",
+    "esbuild": "^0.28.2",
+    "sass": "^1.105.1",
+    "sharp": "^0.35.5"
+  }
+}

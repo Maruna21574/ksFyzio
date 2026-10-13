@@ -1,0 +1,40 @@
+@use 'tokens' as *;
+
+.agecalc__fields { display: grid; gap: 1.25rem; margin-bottom: 1.5rem; @include up($bp-md) { grid-template-columns: 1fr 2fr; align-items: start; } }
+
+.agecalc__size {
+  border: 0; padding: 0; margin: 0; min-width: 0;
+  display: grid; gap: .6rem; grid-template-columns: repeat(3, 1fr);
+  legend { grid-column: 1 / -1; font-weight: 700; font-size: .95rem; color: var(--slate); margin-bottom: .1rem; padding: 0; }
+  label { display: block; cursor: pointer; }
+  input { position: absolute; opacity: 0; pointer-events: none; }
+  span {
+    display: grid; justify-items: center; text-align: center; gap: .1rem; padding: .8rem .4rem;
+    background: #fff; border: 2px solid var(--line); border-radius: 14px; transition: .15s;
+    strong { color: var(--navy); }
+    small { color: var(--muted); font-weight: 600; font-size: .82rem; }
+  }
+  label:hover span { border-color: #b9d3e4; }
+  input:checked + span { border-color: var(--blue); background: var(--tint-2); }
+  input:focus-visible + span { outline: 3px solid var(--cyan); outline-offset: 2px; }
+}
+
+.agecalc__result {
+  text-align: center; padding: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 1.25rem;
+  border-radius: var(--radius-lg); background: var(--grad-cta); color: #fff; box-shadow: var(--shadow);
+  p { margin-bottom: .5rem; }
+}
+.agecalc__label { text-transform: uppercase; letter-spacing: .1em; font-weight: 800; font-size: .85rem; color: #cfe8f6; }
+.agecalc__big {
+  line-height: 1; margin: 0 0 .5rem;
+  strong { font-size: clamp(3.5rem, 12vw, 5.5rem); font-weight: 900; }
+  span { font-size: 1.3rem; font-weight: 800; opacity: .9; }
+}
+.agecalc__stage {
+  display: inline-block; padding: .3rem 1rem; border-radius: 999px; background: rgb(255 255 255 / 18%);
+  font-weight: 800; margin-bottom: 1rem !important;
+  &:empty { display: none; }
+}
+.agecalc__result [data-age-text] { max-width: 52ch; margin: 0 auto 1rem; color: #e6f4fb; }
+.agecalc__result .btn-row { justify-content: center; }
+.agecalc__result .btn--outline { --btn-fg: #fff; --btn-bd: rgb(255 255 255 / 70%); &:hover { background: rgb(255 255 255 / 16%); color: #fff; } }

@@ -1,0 +1,60 @@
+@use 'tokens' as *;
+
+/* Rozbaľovacie menu (dropdown) */
+.nav__toggle {
+  display: flex; align-items: center; gap: .35rem; width: 100%; border: 0; background: none; cursor: pointer;
+  font: inherit; font-weight: 700; text-align: left; justify-content: space-between;
+}
+.nav__caret { width: 1em; height: 1em; transition: rotate .2s; }
+.has-sub { position: relative; }
+.has-sub.is-open > .nav__toggle .nav__caret { rotate: 180deg; }
+.has-sub.is-current > .nav__toggle { color: var(--blue); background: var(--tint-2); }
+
+.subnav ul { list-style: none; display: grid; gap: .15rem; }
+.subnav__link {
+  --c: var(--blue); --c-soft: #e0f6fb;
+  display: flex; align-items: center; gap: .85rem; padding: .6rem .7rem; border-radius: 14px;
+  text-decoration: none; color: var(--slate); transition: background .15s;
+  &:hover { background: var(--tint); }
+  &[aria-current='page'] { background: var(--tint-2); }
+  &--cyan  { --c: var(--blue);    --c-soft: #e0f6fb; }
+  &--green { --c: var(--green-d); --c-soft: #e2f6e8; }
+  &--lime  { --c: var(--lime-d);  --c-soft: #eef6d6; }
+  &--red   { --c: var(--red);     --c-soft: #fde4e7; }
+  &--navy  { --c: var(--navy);    --c-soft: #e2eaf6; }
+  &--all   { --c: var(--blue);    --c-soft: var(--tint-2); }
+}
+.subnav__icon {
+  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px;
+  background: var(--c-soft); color: var(--c);
+  .icon { width: 20px; height: 20px; }
+}
+.subnav__text { display: grid; line-height: 1.25; strong { font-weight: 800; color: var(--navy); font-size: .98rem; } small { color: var(--muted); font-size: .84rem; font-weight: 600; } }
+
+/* Mobil: akordeón vo vnútri menu */
+@media (max-width: 991px) {
+  .nav__toggle { padding: .7rem .9rem; border-radius: 12px; color: var(--slate); &:hover { background: var(--tint); } }
+  .subnav { display: none; padding: .25rem 0 .5rem .5rem; }
+  .has-sub.is-open > .subnav { display: block; }
+}
+
+/* Desktop: plávajúci panel */
+@media (min-width: $bp-lg) {
+  .nav__toggle { width: auto; padding: .7rem .9rem; border-radius: 12px; color: var(--slate); &:hover { background: var(--tint); color: var(--navy); } }
+  .subnav {
+    position: absolute; left: 50%; top: 100%; translate: -50% 8px; min-width: 330px; padding-top: .5rem;
+    opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .18s, transform .18s, visibility .18s;
+    ul {
+      background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: .5rem; box-shadow: var(--shadow-lg);
+    }
+  }
+  .has-sub.is-open > .subnav,
+  .has-sub:focus-within > .subnav {
+    opacity: 1; visibility: visible; transform: none;
+  }
+  @media (hover: hover) {
+    .has-sub:hover > .subnav { opacity: 1; visibility: visible; transform: none; }
+    .has-sub:hover > .nav__toggle .nav__caret { rotate: 180deg; }
+  }
+}
+

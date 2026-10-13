@@ -1,0 +1,87 @@
+@use 'tokens' as *;
+
+/* ---------- Ukážkový obsah ---------- */
+.demo-notice {
+  background: #fff7e0; border-bottom: 1px solid #f0d78a; color: #6b4e00; font-size: .95rem; padding: .7rem 0;
+}
+
+/* ---------- Cenník ---------- */
+.pricing {
+  display: grid; gap: 1.25rem;
+  @include up($bp-md) { grid-template-columns: repeat(2, 1fr); }
+  @include up($bp-xl) { grid-template-columns: repeat(4, 1fr); }
+}
+.price-card {
+  position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 1.75rem 1.5rem; box-shadow: var(--shadow-sm);
+  h2 { font-size: 1.25rem; margin-bottom: .4rem; }
+  .btn { margin-top: auto; }
+  .checks { margin: 1rem 0 1.5rem; li { font-weight: 600; font-size: .98rem; } }
+  &--featured { border: 2px solid var(--red); box-shadow: var(--shadow); }
+}
+.price-card__badge {
+  position: absolute; top: -.8rem; left: 1.5rem; background: var(--red); color: #fff; font-weight: 800;
+  font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 999px;
+}
+.price-card__text { color: var(--muted); font-size: .98rem; margin-bottom: 1rem; }
+.price-card__price {
+  margin: 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line);
+  strong { display: block; font-size: 2.1rem; line-height: 1.1; color: var(--navy); font-weight: 900; }
+  span { color: var(--muted); font-size: .92rem; font-weight: 700; }
+}
+.price-card__ask { font-size: 1.3rem !important; }
+.price-notes {
+  list-style: none; display: grid; gap: .6rem; margin: 2rem auto 0; max-width: 720px; color: var(--slate);
+  li { display: flex; gap: .7rem; align-items: flex-start; }
+  .icon { color: var(--blue); margin-top: .2em; }
+}
+
+/* ---------- Príbehy ---------- */
+.stories { display: grid; gap: 2.5rem; }
+.story {
+  display: grid; gap: 1.5rem; align-items: center; background: #fff; border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: clamp(1rem, 3vw, 1.75rem); box-shadow: var(--shadow-sm);
+  @include up($bp-md) { grid-template-columns: minmax(0, 380px) 1fr; gap: 2.5rem; }
+  &:nth-child(even) { @include up($bp-md) { grid-template-columns: 1fr minmax(0, 380px); .compare { order: 2; } } }
+  h2 { margin-bottom: .6rem; }
+  blockquote {
+    margin: 1.25rem 0 .75rem; padding: .9rem 1.2rem; background: var(--tint); border-left: 5px solid var(--green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-weight: 800; color: var(--navy);
+  }
+}
+.story__facts {
+  margin: 0; display: grid; gap: .9rem;
+  dt { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--green-d); }
+  dd { margin: 0; }
+}
+.story__weeks { display: flex; gap: .5rem; align-items: center; color: var(--muted); font-weight: 700; font-size: .95rem; margin: 0; }
+
+/* ---------- Posuvník pred / po ---------- */
+.compare {
+  --pos: 50%;
+  position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius); background: var(--tint-2);
+  user-select: none; touch-action: pan-y;
+}
+.compare__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.compare__img--before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.compare__img.is-demo { filter: grayscale(1) contrast(.95) brightness(.95); }
+.compare__tag {
+  position: absolute; top: .8rem; padding: .25rem .75rem; border-radius: 999px; font-size: .8rem; font-weight: 800;
+  background: rgb(7 42 90 / 78%); color: #fff; letter-spacing: .04em; text-transform: uppercase;
+  &--before { left: .8rem; }
+  &--after { right: .8rem; background: rgb(23 128 58 / 90%); }
+}
+.compare__handle {
+  position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; margin-left: -1.5px; background: #fff;
+  box-shadow: 0 0 10px rgb(0 0 0 / 35%); pointer-events: none;
+  &::after {
+    content: '↔'; position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+    display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+    background: #fff; color: var(--navy); font-size: 1.4rem; font-weight: 900; line-height: 1; box-shadow: var(--shadow);
+  }
+}
+.compare__range {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; appearance: none;
+  &:focus-visible ~ .compare__handle { outline: 3px solid var(--cyan); outline-offset: 2px; }
+}
+.compare:has(.compare__range:focus-visible) { outline: 3px solid var(--cyan); outline-offset: 3px; }

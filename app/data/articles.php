@@ -1,0 +1,77 @@
+<?php
+// Články / tipy. 'body' je pole blokov: ['h', text] | ['p', text] | ['ul', [položky]] | ['quote', text]
+return [
+    [
+        'slug'    => 'keby-psy-vedeli-rozpravat',
+        'title'   => 'Keby psy vedeli rozprávať…',
+        'excerpt' => 'Naši štvornohí parťáci nám nevedia povedať, čo ich trápi. Ich pohyb a správanie však hovoria veľa.',
+        'image'   => 'assets/img/post-keby-psy.webp',
+        'image_alt' => 'Yorkshirský teriér a bubliny s vtipnými hláškami o ťažkostiach s pohybom',
+        'minutes' => 3,
+        'body'    => [
+            ['p', '„Panička, dnes sa mi akosi ťažšie vstáva…“ – „Ten gauč je zrazu nejako vysoko!“ – „Prechádzka? Jasné! Ale dnes by som poprosil kratšiu verziu.“ – „A tie schody? Dnes ich radšej vynechám.“'],
+            ['p', 'Znie vám to povedome? Naši štvornohí parťáci nám síce nevedia povedať, čo ich trápi, ale ich telo s nami komunikuje každý deň. Stačí si všímať malé zmeny v pohybe a správaní.'],
+            ['h', 'Na čo sa zamerať'],
+            ['ul', [
+                'Vstáva ťažšie ako kedysi alebo je ráno stuhnutý.',
+                'Už toľko neskáče, nechce behať ani sa hrať.',
+                'Rýchlejšie sa unaví alebo sa vyhýba obľúbeným aktivitám.',
+                'Zmenila sa jeho chôdza – kráča inak, šetrí si jednu stranu alebo krívá.',
+                'Vyhýba sa schodom alebo skákaniu na gauč či do auta.',
+            ]],
+            ['p', 'Možno to nie je len lenivosť či vek. Niekedy môže ísť o signál, že psa niečo bolí alebo potrebuje pomoc.'],
+            ['h', 'Čo robiť, keď si všimnete zmenu'],
+            ['p', 'Zmeny si zapíšte a sledujte, ako sa vyvíjajú. Pri náhlom zhoršení, silnej bolesti alebo podozrení na úraz vyhľadajte veterinára. Pri pretrvávajúcich ťažkostiach s pohybom, po úrazoch či operáciách alebo ak chcete podporiť pohyblivosť a komfort svojho psa, vám môže pomôcť veterinárna fyzioterapia.'],
+            ['quote', 'Možno je čas venovať jeho pohybu trochu viac pozornosti.'],
+        ],
+    ],
+    [
+        'slug'    => 'kedy-zvazit-fyzioterapiu',
+        'title'   => 'Kedy zvážiť fyzioterapiu pre psa',
+        'excerpt' => 'Po úraze, po operácii, v starobe alebo keď si všimnete zmenu v pohybe – kedy dáva fyzioterapia zmysel.',
+        'image'   => '',
+        'image_alt' => '',
+        'minutes' => 3,
+        'body'    => [
+            ['p', 'Veterinárna fyzioterapia nie je len pre psov po operácii. Môže pomôcť v mnohých situáciách, keď sa pes hýbe inak, ako by mal, alebo keď chceme podporiť jeho pohyblivosť a komfort.'],
+            ['h', 'Situácie, kedy ju zvážiť'],
+            ['ul', [
+                'Po úraze alebo operácii – na podporu hojenia a návrat k pohybu.',
+                'Pri ťažkostiach s pohybom – krívanie, stuhnutosť, ťažké vstávanie.',
+                'U starších psov – na udržanie pohyblivosti a kvality života.',
+                'Po záťaži – pri regenerácii aktívnych a športových psov.',
+                'Ako prevencia – ak chcete pohybový aparát psa udržať v kondícii.',
+            ]],
+            ['h', 'Fyzioterapia a veterinár'],
+            ['p', 'Fyzioterapia a veterinárna medicína sa dopĺňajú. Ak máte podozrenie na ochorenie alebo úraz, vždy začnite vyšetrením u veterinára. Fyzioterapia potom podporuje liečbu a návrat k pohybu.'],
+            ['h', 'Ako prebieha prvá návšteva'],
+            ['p', 'Pri prvej návšteve sa porozprávame o tom, čo ste si všimli, pozorujeme pohyb psa a šetrne ho vyšetríme. Na základe toho navrhneme ďalší postup. Aj prvé stretnutie je prispôsobené tomu, aby sa pes cítil dobre.'],
+        ],
+    ],
+    [
+        'slug'    => 'ako-podporit-pohyb-starsieho-psa',
+        'title'   => 'Ako podporiť pohyb staršieho psa doma',
+        'excerpt' => 'Pár jednoduchých úprav v domácnosti a na prechádzkach, ktoré seniorom uľahčia každodenný pohyb.',
+        'image'   => '',
+        'image_alt' => '',
+        'minutes' => 4,
+        'body'    => [
+            ['p', 'S pribúdajúcimi rokmi sa pes pohybuje pomalšie a opatrnejšie. Domáce prostredie a denný režim vieme upraviť tak, aby mu pohyb nerobil zbytočné problémy.'],
+            ['h', 'V domácnosti'],
+            ['ul', [
+                'Protišmykové koberce a podložky na klzkých podlahách.',
+                'Mäkké a dostatočne vysoké lôžko, z ktorého sa ľahko vstáva.',
+                'Rampa alebo schodíky na gauč či do auta namiesto skákania.',
+                'Miska s jedlom a vodou vo vhodnej výške.',
+            ]],
+            ['h', 'Na prechádzkach'],
+            ['ul', [
+                'Radšej kratšie a častejšie prechádzky ako jedna dlhá.',
+                'Rovnomerné tempo, bez prudkých štartov a zastavení.',
+                'Po prechádzke dopriať pokojný odpočinok na teplom mieste.',
+            ]],
+            ['h', 'Kedy vyhľadať odbornú pomoc'],
+            ['p', 'Ak sa pes zjavne trápi, krívá, zle vstáva alebo sa jeho pohyb výrazne zhoršil, nečakajte. Zmenu konzultujte s veterinárom a v prípade potreby s fyzioterapeutom. Správna podpora môže psovi pomôcť aj v staršom veku.'],
+        ],
+    ],
+];
