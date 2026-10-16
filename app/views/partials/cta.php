@@ -1,8 +1,8 @@
 <section class="cta-band">
   <div class="container cta-band__inner">
     <div>
-      <h2><?= e($ctaTitle ?? 'Pomôžme vášmu psovi hýbať sa bez bolesti') ?></h2>
-      <p><?= e($ctaText ?? 'Objednajte sa online alebo nám zavolajte. Radi vám poradíme a dohodneme termín.') ?></p>
+      <h2><?= e($ctaTitle ?? t('cta_title')) ?></h2>
+      <p><?= e($ctaText ?? t('cta_text')) ?></p>
     </div>
     <div class="cta-band__actions">
       <a class="btn btn--light" href="<?= e(url('/rezervacia')) ?>"><?= icon('calendar') ?> Objednať sa</a>

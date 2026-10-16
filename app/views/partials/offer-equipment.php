@@ -5,9 +5,9 @@ $offer = $GLOBALS['OFFER'];
 <section class="section<?= !empty($equipmentTint) ? ' section--tint' : '' ?>" aria-labelledby="equipment-h">
   <div class="container">
     <header class="section__head">
-      <p class="eyebrow eyebrow--center">Čím pracujeme</p>
-      <h2 id="equipment-h"><?= e($equipmentTitle ?? 'Prístroje a techniky') ?></h2>
-      <p>Manuálnu terapiu dopĺňame prístrojmi. Postup a kombináciu vždy vyberáme podľa konkrétneho zvieraťa a jeho ťažkostí.</p>
+      <p class="eyebrow eyebrow--center"><?= e(t('equipment_eyebrow')) ?></p>
+      <h2 id="equipment-h"><?= e($equipmentTitle ?? t('equipment_h2')) ?></h2>
+      <p><?= e(t('equipment_lead')) ?></p>
     </header>
     <div class="grid grid--3">
       <?php foreach ($offer['devices'] as [$t, $d, $ico, $color]): ?>
@@ -18,9 +18,11 @@ $offer = $GLOBALS['OFFER'];
         </article>
       <?php endforeach; ?>
     </div>
-    <h3 class="center-text" style="margin:2.5rem 0 1rem">Techniky a metódy</h3>
+    <?php if (!empty($offer['techniques'])): ?>
+    <h3 class="center-text" style="margin:2.5rem 0 1rem"><?= e(t('equipment_tech_h3')) ?></h3>
     <ul class="chips" style="justify-content:center">
       <?php foreach ($offer['techniques'] as $t): ?><li><?= icon('check') ?> <?= e($t) ?></li><?php endforeach; ?>
     </ul>
+    <?php endif; ?>
   </div>
 </section>

@@ -1,10 +1,10 @@
 <?php
 meta([
-    'title' => 'Tipy a rady pre majiteľov psov',
-    'description' => 'Rady o pohybe psov: ako rozpoznať ťažkosti, kedy zvážiť fyzioterapiu a ako podporiť pohyb staršieho psa.',
+    'title' => 'Tipy a rady pre majiteľov zvierat',
+    'description' => t('tips_meta'),
 ]);
-$headTitle = 'Tipy a rady';
-$headLead = 'Krátke články o pohybe psov, ktoré vám pomôžu všimnúť si zmeny včas.';
+$headTitle = t('tips_h1');
+$headLead = t('tips_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 ?>
 <section class="section section--flush">

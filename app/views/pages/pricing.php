@@ -1,13 +1,13 @@
 <?php
 meta([
     'title' => 'Cenník fyzioterapie pre zvieratá',
-    'description' => 'Orientačný cenník veterinárnej fyzioterapie pre psov, mačky a iné zvieratá: vstupné vyšetrenie, jednotlivé terapie, balíčky a výjazd k vám domov.',
+    'description' => t('pricing_meta'),
 ]);
 if (cfg('demo_content')) {
     meta(['noindex' => true]);
 }
-$headTitle = 'Cenník';
-$headLead = 'Jasné a férové ceny. Presnú sumu vám poviem vždy ešte pred návštevou.';
+$headTitle = t('pricing_h1');
+$headLead = t('pricing_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 include dirname(__DIR__) . '/partials/demo-notice.php';
 $pricing = $GLOBALS['PRICING'];
@@ -16,8 +16,8 @@ $pricing = $GLOBALS['PRICING'];
   <div class="container">
     <div class="pricing">
       <?php foreach ($pricing['items'] as $p): ?>
-        <article class="price-card<?= $p['featured'] ? ' price-card--featured' : '' ?>" data-reveal>
-          <?php if ($p['featured']): ?><span class="price-card__badge">Najvýhodnejšie</span><?php endif; ?>
+        <article class="price-card<?= !empty($p['featured']) ? ' price-card--featured' : '' ?>" data-reveal>
+          <?php if (!empty($p['featured'])): ?><span class="price-card__badge"><?= e(t('pricing_badge')) ?></span><?php endif; ?>
           <h2><?= e($p['title']) ?></h2>
           <p class="price-card__text"><?= e($p['text']) ?></p>
           <p class="price-card__price">
@@ -30,7 +30,7 @@ $pricing = $GLOBALS['PRICING'];
           <ul class="checks">
             <?php foreach ($p['includes'] as $inc): ?><li><?= icon('check') ?> <?= e($inc) ?></li><?php endforeach; ?>
           </ul>
-          <a class="btn <?= $p['featured'] ? 'btn--primary' : 'btn--outline' ?> btn--block" href="<?= e(url('/rezervacia')) ?>">Objednať sa</a>
+          <a class="btn <?= !empty($p['featured']) ? 'btn--primary' : 'btn--outline' ?> btn--block" href="<?= e(url('/rezervacia')) ?>">Objednať sa</a>
         </article>
       <?php endforeach; ?>
     </div>
@@ -41,10 +41,10 @@ $pricing = $GLOBALS['PRICING'];
   </div>
 </section>
 <?php
-$equipmentTitle = "Čo je súčasťou terapie";
+$equipmentTitle = t('pricing_equipment_h2');
 $equipmentTint = true;
-include dirname(__DIR__) . "/partials/offer-equipment.php";
-$ctaTitle = 'Máte otázku k cene?';
-$ctaText = 'Zavolajte alebo napíšte. Radi vám poviem, čo bude vaše zviera potrebovať.';
+include dirname(__DIR__) . '/partials/offer-equipment.php';
+$ctaTitle = t('pricing_cta_title');
+$ctaText = t('pricing_cta_text');
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

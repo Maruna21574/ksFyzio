@@ -1,30 +1,28 @@
 <?php
-meta([
-    'description' => 'K&S Fyzio – veterinárna fyzioterapia pre psov, mačky a ďalšie zvieratá vrátane koní. Rehabilitácie, uvoľnenie svalov, laser, magnetoterapia a elektroterapia. Výjazdy domov v Trnavskom a Bratislavskom kraji.',
-]);
+meta(['description' => t('home_meta')]);
 $services = $GLOBALS['SERVICES'];
 ?>
 <section class="hero">
   <div class="container hero__inner">
     <div class="hero__text">
-      <p class="eyebrow"><?= icon('paw') ?> Veterinárna fyzioterapia pre psov, mačky a iné zvieratá</p>
-      <h1>Pomáhame zvieratám <span class="hl">hýbať sa bez bolesti</span></h1>
-      <p class="lead">Rehabilitácie, uvoľnenie svalov a podpora pohybu pre psov, mačky aj iné zvieratá, napríklad kone. Individuálny prístup, prístrojová terapia a výjazd k vám domov.</p>
+      <p class="eyebrow"><?= icon('paw') ?> <?= e(t('home_eyebrow')) ?></p>
+      <h1><?= th('home_h1') ?></h1>
+      <p class="lead"><?= e(t('home_lead')) ?></p>
       <div class="hero__actions">
         <a class="btn btn--primary btn--lg" href="<?= e(url('/rezervacia')) ?>"><?= icon('calendar') ?> Objednať sa</a>
         <a class="btn btn--outline btn--lg" href="tel:<?= e(cfg('phone_href')) ?>"><?= icon('phone') ?> <?= e(cfg('phone')) ?></a>
       </div>
       <ul class="hero__facts">
-        <li><?= icon('home') ?> Výjazd k vám domov</li>
-        <li><?= icon('pin') ?> Trnavský a Bratislavský kraj</li>
-        <li><?= icon('heart') ?> Individuálny prístup</li>
+        <li><?= icon('home') ?> <?= e(t('home_fact1')) ?></li>
+        <li><?= icon('pin') ?> <?= e(t('home_fact2')) ?></li>
+        <li><?= icon('heart') ?> <?= e(t('home_fact3')) ?></li>
       </ul>
     </div>
     <div class="hero__media">
       <div class="hero__photo">
-        <img src="<?= e(asset('assets/img/hero-dog.webp')) ?>" srcset="<?= e(asset('assets/img/hero-dog-640.webp')) ?> 520w, <?= e(asset('assets/img/hero-dog.webp')) ?> 900w" sizes="(min-width: 992px) 480px, 90vw" alt="Spokojný pes pri fyzioterapii – terapeutka mu šetrne kladie ruku na bok" width="900" height="1027" fetchpriority="high" decoding="async">
+        <img src="<?= e(asset(site_img('hero'))) ?>" srcset="<?= e(asset(site_img_small('hero'))) ?> 520w, <?= e(asset(site_img('hero'))) ?> 900w" sizes="(min-width: 992px) 480px, 90vw" alt="<?= e(t('home_hero_alt')) ?>" width="900" height="1027" fetchpriority="high" decoding="async">
       </div>
-      <div class="hero__badge"><?= icon('heart') ?><span><strong>Posúvame</strong> hranice pohybu</span></div>
+      <div class="hero__badge"><?= icon('heart') ?><span><?= th('home_badge') ?></span></div>
     </div>
   </div>
 </section>
@@ -32,9 +30,9 @@ $services = $GLOBALS['SERVICES'];
 <section class="section" aria-labelledby="sluzby-h">
   <div class="container">
     <header class="section__head">
-      <p class="eyebrow eyebrow--center">Čomu sa venujeme</p>
-      <h2 id="sluzby-h">Naše služby</h2>
-      <p>Odborná starostlivosť o pohyb vášho zvieraťa – od rehabilitácie po prevenciu, doplnená prístrojovou terapiou a technikami uvoľnenia.</p>
+      <p class="eyebrow eyebrow--center"><?= e(t('home_srv_eyebrow')) ?></p>
+      <h2 id="sluzby-h"><?= e(t('home_srv_h2')) ?></h2>
+      <p><?= e(t('home_srv_lead')) ?></p>
     </header>
     <div class="grid grid--services">
       <?php foreach ($services as $s): ?>
@@ -51,31 +49,28 @@ $services = $GLOBALS['SERVICES'];
 
 <?php
 $patientsTint = false;
-include dirname(__DIR__) . "/partials/offer-patients.php";
+include dirname(__DIR__) . '/partials/offer-patients.php';
 ?>
 
 <section class="section section--tint talk" aria-labelledby="talk-h">
   <div class="container talk__inner">
     <div class="talk__text" data-reveal>
-      <p class="eyebrow"><?= icon('paw') ?> Všímajte si ich pohyb</p>
-      <h2 id="talk-h">Keby psy vedeli <span class="hl hl--green">rozprávať</span><span class="hl hl--red">…</span></h2>
-      <p>Naši štvornohí parťáci nám síce nevedia povedať, čo ich trápi, ale ich pohyb a správanie nám môžu veľa napovedať. Všimli ste si niektorú z týchto zmien?</p>
+      <p class="eyebrow"><?= icon('paw') ?> <?= e(t('talk_eyebrow')) ?></p>
+      <h2 id="talk-h"><?= th('talk_h2') ?></h2>
+      <p><?= e(t('talk_p1')) ?></p>
       <ul class="checks">
-        <li><?= icon('check') ?> Vstáva ťažšie ako kedysi?</li>
-        <li><?= icon('check') ?> Nechce už toľko behať a skákať?</li>
-        <li><?= icon('check') ?> Všimli ste si zmenu v jeho chôdzi?</li>
+        <?php foreach (t_lines('talk_checks') as $c): ?><li><?= icon('check') ?> <?= e($c) ?></li><?php endforeach; ?>
       </ul>
-      <p><strong>Možno je čas venovať jeho pohybu trochu viac pozornosti.</strong></p>
+      <p><strong><?= e(t('talk_strong')) ?></strong></p>
       <div class="btn-row">
         <a class="btn btn--primary" href="<?= e(url('/rezervacia')) ?>">Objednať sa</a>
-        <a class="btn btn--outline" href="<?= e(url('/test-pohybu')) ?>"><?= icon('activity') ?> Otestujte svojho psa</a>
+        <a class="btn btn--outline" href="<?= e(url('/test-pohybu')) ?>"><?= icon('activity') ?> <?= e(t('talk_btn2')) ?></a>
       </div>
     </div>
     <div class="bubbles" aria-hidden="true">
-      <p class="bubble bubble--green" data-reveal>Panička, dnes sa mi ťažšie vstáva.</p>
-      <p class="bubble bubble--red" data-reveal>Ten gauč je zrazu nejako vysoko!</p>
-      <p class="bubble bubble--blue" data-reveal>Dnes by som si prechádzku dal radšej kratšiu.</p>
-      <p class="bubble bubble--sand" data-reveal>A tie schody? Dnes by som ich radšej vynechal.</p>
+      <?php foreach (array_slice(t_lines('talk_bubbles'), 0, 4) as $i => $b): ?>
+        <p class="bubble bubble--<?= ['green', 'red', 'blue', 'sand'][$i] ?>" data-reveal><?= e($b) ?></p>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -84,21 +79,18 @@ include dirname(__DIR__) . "/partials/offer-patients.php";
   <div class="container split">
     <div class="split__media" data-reveal>
       <div class="mascot-stage">
-        <img src="<?= e(asset('assets/img/mascot.webp')) ?>" alt="Maskot K&amp;S Fyzio – veselý pes so šatkou" width="760" height="1061" loading="lazy" decoding="async">
-        <p class="mascot-stage__text"><strong>Bez stresu. Bez cestovania.</strong> V pohodlí vášho domova.</p>
+        <img src="<?= e(asset(site_img('mascot'))) ?>" alt="Maskot K&amp;S Fyzio – veselý pes so šatkou" width="760" height="1061" loading="lazy" decoding="async">
+        <p class="mascot-stage__text"><?= th('visit_caption') ?></p>
       </div>
     </div>
     <div class="split__text" data-reveal>
-      <p class="eyebrow">Výjazd k vám domov</p>
-      <h2 id="home-h">Odborná starostlivosť v prostredí, kde sa vaše zviera cíti bezpečne</h2>
+      <p class="eyebrow"><?= e(t('visit_eyebrow')) ?></p>
+      <h2 id="home-h"><?= e(t('visit_h2')) ?></h2>
       <ul class="checks checks--grid">
-        <li><?= icon('check') ?> Diagnostika</li>
-        <li><?= icon('check') ?> Vyšetrenie</li>
-        <li><?= icon('check') ?> Fyzioterapia</li>
-        <li><?= icon('check') ?> Individuálny prístup</li>
+        <?php foreach (t_lines('visit_checks') as $c): ?><li><?= icon('check') ?> <?= e($c) ?></li><?php endforeach; ?>
       </ul>
-      <p>Pripravujeme aj vlastnú ambulanciu s hydroterapiou a bežeckým pásom. Zatiaľ za vami prídeme domov.</p>
-      <p>Pôsobíme v Trnavskom a Bratislavskom kraji so základňou v Seredi. Objednať sa môžete formulárom, telefonicky alebo cez WhatsApp, Messenger, Instagram či Facebook.</p>
+      <p><?= e(t('visit_p1')) ?></p>
+      <p><?= e(t('visit_p2')) ?></p>
       <div class="btn-row">
         <a class="btn btn--primary" href="<?= e(url('/sluzby/vyjazd-domov')) ?>">Viac o výjazdoch</a>
         <a class="btn btn--outline" href="<?= e(cfg('whatsapp')) ?>" target="_blank" rel="noopener"><?= icon('chat') ?> Napísať na WhatsApp</a>
@@ -110,36 +102,28 @@ include dirname(__DIR__) . "/partials/offer-patients.php";
 <section class="section section--tint" aria-labelledby="steps-h">
   <div class="container">
     <header class="section__head">
-      <p class="eyebrow eyebrow--center">Jednoducho a bez stresu</p>
-      <h2 id="steps-h">Ako to funguje</h2>
+      <p class="eyebrow eyebrow--center"><?= e(t('steps_eyebrow')) ?></p>
+      <h2 id="steps-h"><?= e(t('steps_h2')) ?></h2>
     </header>
     <ol class="steps">
+      <?php for ($i = 1; $i <= 3; $i++): ?>
       <li class="step" data-reveal>
-        <span class="step__num">1</span>
-        <h3>Objednáte sa</h3>
-        <p>Vyplníte formulár alebo nám zavoláte. Ozveme sa vám a dohodneme termín.</p>
+        <span class="step__num"><?= $i ?></span>
+        <h3><?= e(t("step{$i}_t")) ?></h3>
+        <p><?= e(t("step{$i}_p")) ?></p>
       </li>
-      <li class="step" data-reveal>
-        <span class="step__num">2</span>
-        <h3>Vyšetrenie</h3>
-        <p>Posúdime pohyb a stav vášho zvieraťa a porozprávame sa o tom, čo ho trápi.</p>
-      </li>
-      <li class="step" data-reveal>
-        <span class="step__num">3</span>
-        <h3>Terapia a plán</h3>
-        <p>Prebehne terapia a dostanete odporúčania, ako zvieraťu pomáhať aj doma.</p>
-      </li>
+      <?php endfor; ?>
     </ol>
-    <p class="center"><a class="btn btn--outline" href="<?= e(url('/ako-to-funguje')) ?>">Podrobnejšie a časté otázky</a></p>
+    <p class="center"><a class="btn btn--outline" href="<?= e(url('/ako-to-funguje')) ?>"><?= e(t('steps_btn')) ?></a></p>
   </div>
 </section>
 
 <section class="section" aria-labelledby="area-h">
   <div class="container area">
     <div>
-      <p class="eyebrow">Kde pôsobíme</p>
-      <h2 id="area-h">Trnavský a Bratislavský kraj</h2>
-      <p>Sídlime v Seredi a za pohybom vášho psa vyrážame po celom Trnavskom a Bratislavskom kraji. Ak si nie ste istí, či k vám zvládneme prísť, jednoducho sa opýtajte.</p>
+      <p class="eyebrow"><?= e(t('area_eyebrow')) ?></p>
+      <h2 id="area-h"><?= e(t('area_h2')) ?></h2>
+      <p><?= e(t('area_p')) ?></p>
     </div>
     <ul class="chips">
       <?php foreach (cfg('area') as $a): ?><li><?= icon('pin') ?> <?= e($a) ?></li><?php endforeach; ?>
@@ -148,6 +132,6 @@ include dirname(__DIR__) . "/partials/offer-patients.php";
 </section>
 
 <?php
-$ctaTitle = 'Dajte svojmu zvieraťu pohyb bez bolesti';
+$ctaTitle = t('home_cta_title');
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

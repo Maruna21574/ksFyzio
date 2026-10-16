@@ -23,7 +23,7 @@ if ($uri !== '/' && $uri !== '' && str_ends_with($uri, '/') && $path !== '/') {
 // --- Strojové súbory
 if ($path === '/robots.txt') {
     header('Content-Type: text/plain; charset=UTF-8');
-    echo "User-agent: *\nAllow: /\n\nSitemap: " . absolute_url('/sitemap.xml') . "\n";
+    echo "User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: " . absolute_url('/sitemap.xml') . "\n";
     exit;
 }
 if ($path === '/sitemap.xml') {
@@ -33,6 +33,12 @@ if ($path === '/sitemap.xml') {
         echo '  <url><loc>' . e(absolute_url($u)) . '</loc></url>' . "\n";
     }
     echo "</urlset>\n";
+    exit;
+}
+
+// --- Administrácia
+if ($path === "/admin" || str_starts_with($path, "/admin/")) {
+    require __DIR__ . "/app/admin.php";
     exit;
 }
 

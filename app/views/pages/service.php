@@ -14,12 +14,12 @@ $others = array_filter($GLOBALS['SERVICES'], fn ($s) => $s['slug'] !== $service[
 <section class="section section--flush">
   <div class="container article-layout">
     <div class="prose">
-      <h2>Kedy fyzioterapia pomáha</h2>
+      <h2><?= e(t('service_when_h2')) ?></h2>
       <ul class="checks">
         <?php foreach ($service['when'] as $w): ?><li><?= icon('check') ?> <?= e($w) ?></li><?php endforeach; ?>
       </ul>
 
-      <h2>Ako to prebieha</h2>
+      <h2><?= e(t('service_how_h2')) ?></h2>
       <ol class="steps steps--list">
         <?php foreach ($service['how'] as $i => [$t, $d]): ?>
           <li class="step">
@@ -36,7 +36,7 @@ $others = array_filter($GLOBALS['SERVICES'], fn ($s) => $s['slug'] !== $service[
     <aside class="aside">
       <div class="aside__card aside__card--cta">
         <h2>Objednajte sa</h2>
-        <p>Napíšeme vám späť a dohodneme termín.</p>
+        <p><?= e(t('service_aside_p')) ?></p>
         <a class="btn btn--light btn--block" href="<?= e(url('/rezervacia?sluzba=' . $service['slug'])) ?>"><?= icon('calendar') ?> Objednať sa</a>
         <a class="btn btn--ghost-light btn--block" href="tel:<?= e(cfg('phone_href')) ?>"><?= icon('phone') ?> <?= e(cfg('phone')) ?></a>
       </div>

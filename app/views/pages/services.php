@@ -1,10 +1,10 @@
 <?php
 meta([
     'title' => 'Služby – fyzioterapia pre zvieratá',
-    'description' => 'Rehabilitácie po úrazoch a operáciách, uvoľnenie svalov a regenerácia, podpora pohybu starších zvierat, prístrojová terapia, vyšetrenie a výjazd domov. K&S Fyzio.',
+    'description' => t('services_meta'),
 ]);
-$headTitle = 'Naše služby';
-$headLead = 'Od rehabilitácie po úraze cez regeneráciu a šport až po prevenciu a podporu pohybu starších zvierat. Každé zviera je iné, preto ku každému pristupujeme individuálne.';
+$headTitle = t('services_h1');
+$headLead = t('services_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 ?>
 <section class="section section--flush">

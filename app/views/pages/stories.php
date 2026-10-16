@@ -1,13 +1,13 @@
 <?php
 meta([
     'title' => 'Príbehy pacientov – pred a po terapii',
-    'description' => 'Príbehy psov, mačiek a ďalších zvierat, ktorým fyzioterapia pomohla vrátiť sa k pohybu. Porovnanie pred a po.',
+    'description' => t('stories_meta'),
 ]);
 if (cfg('demo_content')) {
     meta(['noindex' => true]);
 }
-$headTitle = "Príbehy pacientov";
-$headLead = 'Ako sa našim pacientom po terapii zlepšil pohyb. Posuňte posuvník a porovnajte stav pred a po.';
+$headTitle = t('stories_h1');
+$headLead = t('stories_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 include dirname(__DIR__) . '/partials/demo-notice.php';
 ?>
@@ -39,10 +39,10 @@ include dirname(__DIR__) . '/partials/demo-notice.php';
         </article>
       <?php endforeach; ?>
     </div>
-    <p class="notice"><?= icon('shield') ?> <span>Každý pes je iný a výsledky sa môžu líšiť. Príbehy zverejňujeme so súhlasom majiteľov.</span></p>
+    <p class="notice"><?= icon('shield') ?> <span><?= e(t('stories_notice')) ?></span></p>
   </div>
 </section>
 <?php
-$ctaTitle = 'Pomôžme aj vášmu zvieraťu';
+$ctaTitle = t('stories_cta');
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

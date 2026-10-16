@@ -2,10 +2,10 @@
 /** @var array $form */
 meta([
     'title' => 'Objednať sa – rezervácia fyzioterapie',
-    'description' => 'Objednajte svojho psa na fyzioterapiu cez online formulár. Ozveme sa vám a dohodneme termín – aj výjazd k vám domov.',
+    'description' => t('booking_meta'),
 ]);
 $headTitle = 'Objednať sa';
-$headLead = 'Vyplňte formulár a my sa vám ozveme, aby sme spolu dohodli termín. Môžete sa objednať aj telefonicky alebo cez WhatsApp.';
+$headLead = t('booking_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 ?>
 <section class="section section--flush">
@@ -88,7 +88,7 @@ include dirname(__DIR__) . '/partials/page-head.php';
       </div>
       <div class="aside__card aside__card--soft">
         <h2>Výjazd k vám domov</h2>
-        <p>Chodíme po celom Trnavskom a Bratislavskom kraji. Pes sa tak nemusí stresovať cestovaním.</p>
+        <p><?= e(t('booking_aside_p')) ?></p>
       </div>
     </aside>
   </div>

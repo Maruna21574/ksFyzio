@@ -2,10 +2,10 @@
 /** @var array $form */
 meta([
     'title' => 'Kontakt',
-    'description' => 'Kontaktujte K&S Fyzio – telefón 0902 082 286, e-mail, WhatsApp. Sereď, výjazdy v Trnavskom a Bratislavskom kraji.',
+    'description' => t('contact_meta'),
 ]);
 $headTitle = 'Kontakt';
-$headLead = 'Máte otázku alebo si nie ste istí, či vášmu psovi fyzioterapia pomôže? Ozvite sa nám.';
+$headLead = t('contact_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
 ?>
 <section class="section section--flush">

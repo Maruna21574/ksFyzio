@@ -2,7 +2,7 @@
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
       <img src="<?= e(asset('assets/img/logo.webp')) ?>" alt="<?= e(cfg('name')) ?>" width="560" height="360" loading="lazy" decoding="async">
-      <p><?= e(cfg('tagline')) ?>. Veterinárna fyzioterapia pre psov, mačky a iné zvieratá v Trnavskom a Bratislavskom kraji.</p>
+      <p><?= e(cfg('tagline')) ?>. <?= e(t('footer_text')) ?></p>
     </div>
 
     <div>
@@ -49,7 +49,7 @@
   <div class="site-footer__bottom">
     <div class="container">
       <span>© <?= date('Y') ?> <?= e(cfg('name')) ?>. Všetky práva vyhradené.</span>
-      <span>Fyzioterapia dopĺňa, nenahrádza veterinárnu starostlivosť.</span>
+      <span><?= e(t('footer_note')) ?></span>
     </div>
   </div>
 </footer>

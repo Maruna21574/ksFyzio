@@ -1,12 +1,12 @@
 <?php
-// Komu pomáhame. Voliteľné: $patientsTitle, $patientsLead.
+// Komu pomáhame. Voliteľné: $patientsTint (false = biele pozadie).
 ?>
-<section class="section<?= ($patientsTint ?? true) ? " section--tint" : "" ?>" aria-labelledby="patients-h">
+<section class="section<?= ($patientsTint ?? true) ? ' section--tint' : '' ?>" aria-labelledby="patients-h">
   <div class="container">
     <header class="section__head">
-      <p class="eyebrow eyebrow--center">Komu pomáhame</p>
-      <h2 id="patients-h"><?= e($patientsTitle ?? 'Pre ktoré zvieratá sme tu') ?></h2>
-      <p><?= e($patientsLead ?? 'Venujeme sa psom, mačkám aj ďalším zvieratám v každom veku. Pomoc nie je len pri probléme: správna prevencia môže pomôcť predísť ťažkostiam, ktoré by neskôr vyžadovali náročnejšiu liečbu.') ?></p>
+      <p class="eyebrow eyebrow--center"><?= e(t('patients_eyebrow')) ?></p>
+      <h2 id="patients-h"><?= e(t('patients_h2')) ?></h2>
+      <p><?= e(t('patients_lead')) ?></p>
     </header>
     <div class="grid grid--3">
       <?php foreach ($GLOBALS['OFFER']['patients'] as [$t, $d, $ico, $color]): ?>
