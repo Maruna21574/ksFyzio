@@ -13,8 +13,8 @@ $nav = [
         ['/test-pohybu', 'Test pohybu psa', 'activity', 'Rýchly orientačný test', 'green'],
         ['/vek-psa', 'Vek psa v ľudských rokoch', 'sun', 'Zábavná kalkulačka', 'lime'],
         ['/cennik', 'Cenník', 'tag', 'Ceny a balíčky', 'lime'],
-        ['/pribehy', 'Príbehy psov', 'heart', 'Pred a po terapii', 'red'],
-        ['/tipy', 'Tipy a rady', 'book', 'Články o pohybe psov', 'navy'],
+        ['/pribehy', 'Príbehy pacientov', 'heart', 'Pred a po terapii', 'red'],
+        ['/tipy', 'Tipy a rady', 'book', 'Články o pohybe zvierat', 'navy'],
     ]],
     ['label' => 'O nás', 'base' => '/o-nas', 'children' => [
         ['/o-nas', 'O nás', 'paw', 'Kto sme a ako pracujeme', 'cyan'],

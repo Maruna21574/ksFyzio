@@ -1,7 +1,7 @@
 <?php
 meta([
-    'title' => 'Cenník fyzioterapie pre psov',
-    'description' => 'Orientačný cenník veterinárnej fyzioterapie: vstupné vyšetrenie, jednotlivé terapie, balíčky a výjazd k vám domov.',
+    'title' => 'Cenník fyzioterapie pre zvieratá',
+    'description' => 'Orientačný cenník veterinárnej fyzioterapie pre psov, mačky a iné zvieratá: vstupné vyšetrenie, jednotlivé terapie, balíčky a výjazd k vám domov.',
 ]);
 if (cfg('demo_content')) {
     meta(['noindex' => true]);
@@ -41,7 +41,10 @@ $pricing = $GLOBALS['PRICING'];
   </div>
 </section>
 <?php
+$equipmentTitle = "Čo je súčasťou terapie";
+$equipmentTint = true;
+include dirname(__DIR__) . "/partials/offer-equipment.php";
 $ctaTitle = 'Máte otázku k cene?';
-$ctaText = 'Zavolajte alebo napíšte. Radi vám poviem, čo bude váš pes potrebovať.';
+$ctaText = 'Zavolajte alebo napíšte. Radi vám poviem, čo bude vaše zviera potrebovať.';
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

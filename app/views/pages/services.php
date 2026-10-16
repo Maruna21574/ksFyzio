@@ -1,10 +1,10 @@
 <?php
 meta([
-    'title' => 'Služby – fyzioterapia pre psov',
-    'description' => 'Rehabilitácie po úrazoch a operáciách, uvoľnenie svalov a regenerácia, podpora pohybu starších psov, vyšetrenie a výjazd domov. K&S Fyzio.',
+    'title' => 'Služby – fyzioterapia pre zvieratá',
+    'description' => 'Rehabilitácie po úrazoch a operáciách, uvoľnenie svalov a regenerácia, podpora pohybu starších zvierat, prístrojová terapia, vyšetrenie a výjazd domov. K&S Fyzio.',
 ]);
 $headTitle = 'Naše služby';
-$headLead = 'Od rehabilitácie po úraze cez regeneráciu až po podporu pohybu starších psov. Každý pes je iný, preto ku každému pristupujeme individuálne.';
+$headLead = 'Od rehabilitácie po úraze cez regeneráciu a šport až po prevenciu a podporu pohybu starších zvierat. Každé zviera je iné, preto ku každému pristupujeme individuálne.';
 include dirname(__DIR__) . '/partials/page-head.php';
 ?>
 <section class="section section--flush">
@@ -21,4 +21,9 @@ include dirname(__DIR__) . '/partials/page-head.php';
     </div>
   </div>
 </section>
-<?php include dirname(__DIR__) . '/partials/cta.php'; ?>
+<?php
+include dirname(__DIR__) . '/partials/offer-patients.php';
+$equipmentTint = false;
+include dirname(__DIR__) . '/partials/offer-equipment.php';
+include dirname(__DIR__) . '/partials/cta.php';
+?>

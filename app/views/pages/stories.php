@@ -1,13 +1,13 @@
 <?php
 meta([
-    'title' => 'Príbehy psov – pred a po terapii',
-    'description' => 'Príbehy psov, ktorým fyzioterapia pomohla vrátiť sa k pohybu. Porovnanie pred a po.',
+    'title' => 'Príbehy pacientov – pred a po terapii',
+    'description' => 'Príbehy psov, mačiek a ďalších zvierat, ktorým fyzioterapia pomohla vrátiť sa k pohybu. Porovnanie pred a po.',
 ]);
 if (cfg('demo_content')) {
     meta(['noindex' => true]);
 }
-$headTitle = 'Príbehy psov';
-$headLead = 'Ako sa psom po terapii zlepšil pohyb. Posuňte posuvník a porovnajte stav pred a po.';
+$headTitle = "Príbehy pacientov";
+$headLead = 'Ako sa našim pacientom po terapii zlepšil pohyb. Posuňte posuvník a porovnajte stav pred a po.';
 include dirname(__DIR__) . '/partials/page-head.php';
 include dirname(__DIR__) . '/partials/demo-notice.php';
 ?>
@@ -26,7 +26,7 @@ include dirname(__DIR__) . '/partials/demo-notice.php';
           </div>
 
           <div class="story__body">
-            <p class="eyebrow"><?= icon('paw') ?> <?= e($s['meta']) ?></p>
+            <p class="eyebrow"><?= icon("paw") ?> <?= e($s["type"]) ?> · <?= e($s["meta"]) ?></p>
             <h2><?= e($s['name']) ?></h2>
             <dl class="story__facts">
               <div><dt>Problém</dt><dd><?= e($s['problem']) ?></dd></div>
@@ -43,6 +43,6 @@ include dirname(__DIR__) . '/partials/demo-notice.php';
   </div>
 </section>
 <?php
-$ctaTitle = 'Pomôžme aj vášmu psovi';
+$ctaTitle = 'Pomôžme aj vášmu zvieraťu';
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

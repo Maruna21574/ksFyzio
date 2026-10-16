@@ -11,6 +11,6 @@ require __DIR__ . '/lib/helpers.php';
 require __DIR__ . '/lib/forms.php';
 require __DIR__ . '/lib/ui.php';
 
-foreach (['services', 'articles', 'faq', 'signals', 'pricing', 'stories'] as $d) {
+foreach (['services', 'articles', 'faq', 'signals', 'pricing', 'stories', 'offer'] as $d) {
     $GLOBALS[strtoupper($d)] = require __DIR__ . "/data/$d.php";
 }

@@ -20,6 +20,15 @@ return [
     'region'  => 'Trnavský kraj',
     'area'    => ['Sereď', 'Trnavský kraj', 'Bratislavský kraj'],
 
+    // Sekcia „Kto sa o vaše zviera postará“ na stránke O nás. Zobrazí sa, keď je vyplnený text (bio).
+    // Fotku nahrajte do assets/img/ a uveďte cestu v 'photo' (napr. assets/img/terapeutka.webp).
+    'therapist' => [
+        'name'  => '',
+        'role'  => 'Veterinárna fyzioterapeutka',
+        'photo' => '',
+        'bio'   => [], // zoznam odsekov
+    ],
+
     // Voliteľné údaje do ochrany osobných údajov (zobrazia sa, ak sú vyplnené).
     'company_name' => '',
     'ico'          => '',

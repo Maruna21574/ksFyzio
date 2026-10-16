@@ -1,15 +1,15 @@
 <?php
 meta([
-    'description' => 'K&S Fyzio – veterinárna fyzioterapia pre psov. Rehabilitácie po úrazoch a operáciách, uvoľnenie svalov, podpora pohybu starších psov. Výjazdy domov v Trnavskom a Bratislavskom kraji.',
+    'description' => 'K&S Fyzio – veterinárna fyzioterapia pre psov, mačky a ďalšie zvieratá vrátane koní. Rehabilitácie, uvoľnenie svalov, laser, magnetoterapia a elektroterapia. Výjazdy domov v Trnavskom a Bratislavskom kraji.',
 ]);
 $services = $GLOBALS['SERVICES'];
 ?>
 <section class="hero">
   <div class="container hero__inner">
     <div class="hero__text">
-      <p class="eyebrow"><?= icon('paw') ?> Veterinárna fyzioterapia pre psov</p>
-      <h1>Pomáhame psom <span class="hl">hýbať sa bez bolesti</span></h1>
-      <p class="lead">Rehabilitácie, uvoľnenie svalov a podpora pohybu s individuálnym prístupom ku každému psovi. Prídeme aj k vám domov.</p>
+      <p class="eyebrow"><?= icon('paw') ?> Veterinárna fyzioterapia pre psov, mačky a iné zvieratá</p>
+      <h1>Pomáhame zvieratám <span class="hl">hýbať sa bez bolesti</span></h1>
+      <p class="lead">Rehabilitácie, uvoľnenie svalov a podpora pohybu pre psov, mačky aj iné zvieratá, napríklad kone. Individuálny prístup, prístrojová terapia a výjazd k vám domov.</p>
       <div class="hero__actions">
         <a class="btn btn--primary btn--lg" href="<?= e(url('/rezervacia')) ?>"><?= icon('calendar') ?> Objednať sa</a>
         <a class="btn btn--outline btn--lg" href="tel:<?= e(cfg('phone_href')) ?>"><?= icon('phone') ?> <?= e(cfg('phone')) ?></a>
@@ -34,7 +34,7 @@ $services = $GLOBALS['SERVICES'];
     <header class="section__head">
       <p class="eyebrow eyebrow--center">Čomu sa venujeme</p>
       <h2 id="sluzby-h">Naše služby</h2>
-      <p>Odborná starostlivosť o pohyb vášho psa – od rehabilitácie po prevenciu a podporu v seniorskom veku.</p>
+      <p>Odborná starostlivosť o pohyb vášho zvieraťa – od rehabilitácie po prevenciu, doplnená prístrojovou terapiou a technikami uvoľnenia.</p>
     </header>
     <div class="grid grid--services">
       <?php foreach ($services as $s): ?>
@@ -48,6 +48,11 @@ $services = $GLOBALS['SERVICES'];
     </div>
   </div>
 </section>
+
+<?php
+$patientsTint = false;
+include dirname(__DIR__) . "/partials/offer-patients.php";
+?>
 
 <section class="section section--tint talk" aria-labelledby="talk-h">
   <div class="container talk__inner">
@@ -85,13 +90,14 @@ $services = $GLOBALS['SERVICES'];
     </div>
     <div class="split__text" data-reveal>
       <p class="eyebrow">Výjazd k vám domov</p>
-      <h2 id="home-h">Odborná starostlivosť v prostredí, kde sa váš pes cíti bezpečne</h2>
+      <h2 id="home-h">Odborná starostlivosť v prostredí, kde sa vaše zviera cíti bezpečne</h2>
       <ul class="checks checks--grid">
         <li><?= icon('check') ?> Diagnostika</li>
         <li><?= icon('check') ?> Vyšetrenie</li>
         <li><?= icon('check') ?> Fyzioterapia</li>
         <li><?= icon('check') ?> Individuálny prístup</li>
       </ul>
+      <p>Pripravujeme aj vlastnú ambulanciu s hydroterapiou a bežeckým pásom. Zatiaľ za vami prídeme domov.</p>
       <p>Pôsobíme v Trnavskom a Bratislavskom kraji so základňou v Seredi. Objednať sa môžete formulárom, telefonicky alebo cez WhatsApp, Messenger, Instagram či Facebook.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="<?= e(url('/sluzby/vyjazd-domov')) ?>">Viac o výjazdoch</a>
@@ -116,12 +122,12 @@ $services = $GLOBALS['SERVICES'];
       <li class="step" data-reveal>
         <span class="step__num">2</span>
         <h3>Vyšetrenie</h3>
-        <p>Posúdime pohyb a stav vášho psa a porozprávame sa o tom, čo ho trápi.</p>
+        <p>Posúdime pohyb a stav vášho zvieraťa a porozprávame sa o tom, čo ho trápi.</p>
       </li>
       <li class="step" data-reveal>
         <span class="step__num">3</span>
         <h3>Terapia a plán</h3>
-        <p>Prebehne terapia a dostanete odporúčania, ako psovi pomáhať aj doma.</p>
+        <p>Prebehne terapia a dostanete odporúčania, ako zvieraťu pomáhať aj doma.</p>
       </li>
     </ol>
     <p class="center"><a class="btn btn--outline" href="<?= e(url('/ako-to-funguje')) ?>">Podrobnejšie a časté otázky</a></p>
@@ -142,6 +148,6 @@ $services = $GLOBALS['SERVICES'];
 </section>
 
 <?php
-$ctaTitle = 'Dajte svojmu psovi pohyb bez bolesti';
+$ctaTitle = 'Dajte svojmu zvieraťu pohyb bez bolesti';
 include dirname(__DIR__) . '/partials/cta.php';
 ?>

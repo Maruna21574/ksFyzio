@@ -5,8 +5,8 @@ $m = $GLOBALS['META'];
 $siteName = cfg('name');
 $title = isset($m['title'])
     ? $m['title'] . ' | ' . $siteName
-    : $siteName . ' – Veterinárna fyzioterapia pre psov | Sereď, Trnavský a Bratislavský kraj';
-$desc = $m['description'] ?? 'Veterinárna fyzioterapia pre psov. Rehabilitácie po úrazoch a operáciách, uvoľnenie svalov, podpora pohybu starších psov a výjazd domov v Trnavskom a Bratislavskom kraji.';
+    : $siteName . ' – Veterinárna fyzioterapia pre psov, mačky a iné zvieratá | Sereď, Trnavský a Bratislavský kraj';
+$desc = $m['description'] ?? 'Veterinárna fyzioterapia pre psov, mačky a iné zvieratá. Rehabilitácie, uvoľnenie svalov, laser, magnetoterapia, elektroterapia a výjazd domov v Trnavskom a Bratislavskom kraji.';
 $canonical = absolute_url($GLOBALS['CURRENT_PATH'] ?? '/');
 $ogImage = absolute_url($m['image'] ?? 'assets/img/og-image.jpg');
 $noindex = $page === '404' || !empty($m['noindex']);
@@ -15,7 +15,7 @@ $schema = [
     '@context' => 'https://schema.org',
     '@type' => 'LocalBusiness',
     'name' => $siteName,
-    'description' => 'Veterinárna fyzioterapia pre psov – rehabilitácie, uvoľnenie svalov, podpora pohybu starších psov, výjazdy domov.',
+    'description' => 'Veterinárna fyzioterapia pre psov, mačky a iné zvieratá – rehabilitácie, uvoľnenie svalov, prístrojová terapia, výjazdy domov.',
     'url' => absolute_url('/'),
     'image' => absolute_url('assets/img/og-image.jpg'),
     'logo' => absolute_url('assets/img/logo.png'),

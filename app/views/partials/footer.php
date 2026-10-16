@@ -2,7 +2,7 @@
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
       <img src="<?= e(asset('assets/img/logo.webp')) ?>" alt="<?= e(cfg('name')) ?>" width="560" height="360" loading="lazy" decoding="async">
-      <p><?= e(cfg('tagline')) ?>. Veterinárna fyzioterapia pre psov v Trnavskom a Bratislavskom kraji.</p>
+      <p><?= e(cfg('tagline')) ?>. Veterinárna fyzioterapia pre psov, mačky a iné zvieratá v Trnavskom a Bratislavskom kraji.</p>
     </div>
 
     <div>
@@ -19,7 +19,7 @@
       <ul class="site-footer__list">
         <li><a href="<?= e(url('/ako-to-funguje')) ?>">Ako to funguje</a></li>
         <li><a href="<?= e(url('/cennik')) ?>">Cenník</a></li>
-        <li><a href="<?= e(url('/pribehy')) ?>">Príbehy psov</a></li>
+        <li><a href="<?= e(url('/pribehy')) ?>">Príbehy pacientov</a></li>
         <li><a href="<?= e(url('/o-nas')) ?>">O nás</a></li>
         <li><a href="<?= e(url('/tipy')) ?>">Tipy a rady</a></li>
         <li><a href="<?= e(url('/test-pohybu')) ?>">Test pohybu psa</a></li>
