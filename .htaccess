@@ -15,7 +15,7 @@ ServerSignature Off
 
   # Never expose project internals
   RewriteRule ^(app|src|scripts|node_modules|dist)(/|$) - [F,L]
-  RewriteRule ^(package(-lock)?\.json|README\.md|\.git.*|\.env.*)$ - [F,L]
+  RewriteRule ^(package(-lock)?\.json|README\.md|\.git.*|\.env.*|\.user\.ini)$ - [F,L]
 
   # Front controller (clean URLs, sitemap.xml, robots.txt)
   RewriteCond %{REQUEST_FILENAME} !-f
