@@ -6,6 +6,26 @@
 }
 
 /* ---------- Cenník ---------- */
+.price-groups {
+  display: grid; gap: 1.25rem; margin-bottom: 2rem;
+  @include up($bp-md) { grid-template-columns: repeat(2, 1fr); align-items: start; }
+}
+.price-group {
+  background: #fff; border: 1px solid var(--line); border-top: 5px solid var(--cyan); border-radius: var(--radius-lg);
+  padding: 1.5rem 1.5rem 1.25rem; box-shadow: var(--shadow-sm);
+  &:nth-child(5n+2) { border-top-color: var(--green); }
+  &:nth-child(5n+3) { border-top-color: var(--red); }
+  &:nth-child(5n+4) { border-top-color: var(--lime); }
+  &:nth-child(5n) { border-top-color: var(--navy); }
+  h2 { font-size: 1.25rem; margin-bottom: .6rem; }
+}
+.price-rows {
+  list-style: none; margin: 0; padding: 0;
+  li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .6rem 0; border-bottom: 1px dashed var(--line); &:last-child { border-bottom: 0; } }
+  span { color: var(--ink); }
+  strong { color: var(--navy); font-weight: 900; white-space: nowrap; }
+}
+.price-group__note { display: flex; gap: .6rem; align-items: flex-start; margin: .9rem 0 0; padding-top: .9rem; border-top: 1px solid var(--line); color: var(--slate); font-size: .95rem; .icon { color: var(--blue); margin-top: .2em; flex-shrink: 0; } }
 .pricing {
   display: grid; gap: 1.25rem;
   @include up($bp-md) { grid-template-columns: repeat(2, 1fr); }

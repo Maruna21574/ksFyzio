@@ -90,7 +90,15 @@ function adm_schema(string $page, ?string $group = null): array
 
         case 'cennik':
             return [
-                adm_f('items', 'repeater', 'Položky cenníka', ['label' => 'title', 'add' => 'Pridať položku', 'fields' => [
+                adm_f('groups', 'repeater', 'Skupiny cenníka (riadky s cenami)', ['label' => 'title', 'add' => 'Pridať skupinu', 'fields' => [
+                    adm_f('title', 'text', 'Názov skupiny', ['req' => true, 'max' => 120]),
+                    adm_f('rows', 'repeater', 'Riadky cenníka', ['tuple' => true, 'add' => 'Pridať riadok', 'fields' => [
+                        adm_f('n', 'text', 'Názov služby (aj s časom, napr. Fyzioterapia (60 min.))', ['max' => 160]),
+                        adm_f('p', 'text', 'Cena (napr. 35 € alebo 10–15 €)', ['max' => 30]),
+                    ]]),
+                    adm_f('note', 'textarea', 'Poznámka pod skupinou (nepovinná)', ['rows' => 2, 'max' => 400]),
+                ]]),
+                adm_f('items', 'repeater', 'Zvýraznené balíčky (nepovinné karty navyše)', ['label' => 'title', 'add' => 'Pridať balíček', 'fields' => [
                     adm_f('title', 'text', 'Názov', ['req' => true, 'max' => 120]),
                     adm_f('price', 'text', 'Cena (napr. 35 €)', ['max' => 30, 'hint' => 'Prázdne = zobrazí sa „Cena na vyžiadanie“.']),
                     adm_f('unit', 'text', 'Jednotka (napr. za terapiu)', ['max' => 60]),
@@ -139,7 +147,8 @@ function adm_schema(string $page, ?string $group = null): array
                 adm_f('city', 'text', 'Mesto', ['max' => 80]),
                 adm_f('zip', 'text', 'PSČ', ['max' => 12]),
                 adm_f('area', 'lines', 'Oblasť pôsobenia (jedna na riadok)'),
-                adm_f('demo_content', 'checkbox', 'Zobrazovať „ukážkový obsah“ na Cenníku a Príbehoch (vypnite, keď sú tam skutočné údaje)'),
+                adm_f('demo_pricing', 'checkbox', 'Cenník je ukážkový (zobrazí upozornenie a skryje ho pred Googlom)'),
+                adm_f('demo_content', 'checkbox', 'Príbehy sú ukážkové (zobrazí upozornenie a skryje ich pred Googlom; vypnite, keď sú tam skutočné príbehy)'),
                 adm_f('therapist', 'group', 'O vás (stránka O nás)', ['fields' => [
                     adm_f('name', 'text', 'Meno', ['max' => 80]),
                     adm_f('role', 'text', 'Povolanie', ['max' => 100]),

@@ -64,9 +64,9 @@ return [
     ]],
 
     'pricing' => ['title' => 'Cenník', 'fields' => [
-        'pricing_meta'     => ['Popis pre vyhľadávače', 'text', 'Orientačný cenník veterinárnej fyzioterapie pre psov, mačky a iné zvieratá: vstupné vyšetrenie, jednotlivé terapie, balíčky a výjazd k vám domov.'],
-        'pricing_h1'       => ['Nadpis stránky', 'line', 'Cenník'],
-        'pricing_lead'     => ['Úvod stránky', 'text', 'Jasné a férové ceny. Presnú sumu vám poviem vždy ešte pred návštevou.'],
+        'pricing_meta'     => ['Popis pre vyhľadávače', 'text', 'Cenník veterinárnej fyzioterapie a rehabilitácie pre psov, mačky a iné zvieratá: fyzioterapia, manuálne techniky, fyzikálna terapia, kombinované terapie, cvičenie a fyzioterapia doma u klienta.'],
+        'pricing_h1'       => ['Nadpis stránky', 'line', 'Cenník fyzioterapie a rehabilitácie'],
+        'pricing_lead'     => ['Úvod stránky', 'text', 'Jasné a férové ceny. V prípade otázok mi kedykoľvek zavolajte alebo napíšte.'],
         'pricing_badge'    => ['Štítok pri najvýhodnejšej položke', 'line', 'Najvýhodnejšie'],
         'pricing_equipment_h2' => ['Nadpis sekcie s prístrojmi', 'line', 'Čo je súčasťou terapie'],
         'pricing_cta_title' => ['Spodný pruh – nadpis', 'line', 'Máte otázku k cene?'],

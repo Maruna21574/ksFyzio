@@ -1,44 +1,42 @@
 <?php
-// Cenník – UKÁŽKOVÉ ÚDAJE. Skutočné ceny nahraďte tu a v config.php vypnite 'demo_content'.
-// 'price' prázdne = zobrazí sa „Cena na vyžiadanie“.
+// Cenník. 'groups' = skupiny s riadkami [názov, cena]; 'items' = voliteľné zvýraznené balíčky (karty); 'notes' = poznámky pod cenníkom.
 return [
-    'items' => [
-        [
-            'title'    => 'Vstupné vyšetrenie',
-            'price'    => '35 €',
-            'unit'     => 'jednorazovo',
-            'text'     => 'Rozhovor, vyšetrenie pohybu a návrh ďalšieho postupu.',
-            'includes' => ['Rozhovor a anamnéza', 'Vyšetrenie pohybu, svalstva a kĺbov', 'Návrh plánu terapie', 'Rady pre domáce prostredie'],
-            'featured' => false,
-        ],
-        [
-            'title'    => 'Fyzioterapia – jedna terapia',
-            'price'    => '30 €',
-            'unit'     => 'za terapiu',
-            'text'     => 'Jednotlivá terapia prispôsobená aktuálnemu stavu zvieraťa.',
-            'includes' => ['Manuálne techniky, cvičenia a prístrojová terapia podľa potreby', 'Zhodnotenie pokroku', 'Domáce cvičenia pre majiteľa'],
-            'featured' => false,
-        ],
-        [
-            'title'    => 'Balíček 5 terapií',
-            'price'    => '135 €',
-            'unit'     => 'za 5 terapií',
-            'text'     => 'Pre zvieratá po úraze alebo operácii a pri dlhodobejšej podpore pohybu.',
-            'includes' => ['5 terapií so zvýhodnenou cenou', 'Priebežné hodnotenie a úprava plánu', 'Podpora medzi stretnutiami'],
-            'featured' => true,
-        ],
-        [
-            'title'    => 'Výjazd k vám domov',
-            'price'    => 'od 10 €',
-            'unit'     => 'príplatok za výjazd',
-            'text'     => 'Prídeme za vami v Trnavskom a Bratislavskom kraji. Výška príplatku závisí od vzdialenosti.',
-            'includes' => ['Terapia v prostredí, kde sa zviera cíti bezpečne', 'Bez stresu z cestovania', 'Cenu výjazdu vám poviem vopred'],
-            'featured' => false,
-        ],
+    'groups' => [
+        ['title' => 'Fyzioterapia a manuálne techniky', 'note' => '', 'rows' => [
+            ['Vstupné vyšetrenie a konzultácia (30 min.)', '25 €'],
+            ['Individuálna fyzioterapia (60 min.)', '35 €'],
+            ['Mäkké techniky (30 min.)', '20 €'],
+            ['Mobilizačné techniky (30 min.)', '20 €'],
+            ['Kombinácia mäkkých techník a mobilizácií (60 min.)', '35 €'],
+            ['Kineziotaping', '10–15 €'],
+        ]],
+        ['title' => 'Fyzikálna terapia', 'note' => '', 'rows' => [
+            ['Elektroterapia', '10 €'],
+            ['Magnetoterapia', '10 €'],
+            ['Laseroterapia', '15 €'],
+            ['Rázová vlna', '25 €'],
+            ['Kombinácia fyzikálnych procedúr', '20 €'],
+        ]],
+        ['title' => 'Kombinované terapie', 'note' => '', 'rows' => [
+            ['Fyzioterapia + elektroterapia', '35 €'],
+            ['Fyzioterapia + magnetoterapia', '35 €'],
+            ['Fyzioterapia + laseroterapia', '35 €'],
+            ['Fyzioterapia + rázová vlna', '40 €'],
+        ]],
+        ['title' => 'Konzultácie a cvičenie', 'note' => '', 'rows' => [
+            ['Konzultácia (15–20 min.)', '15 €'],
+            ['Individuálne cvičenie (30 min.)', '20 €'],
+            ['Individuálne cvičenie (60 min.)', '35 €'],
+            ['Návrh domáceho rehabilitačného plánu', '20 €'],
+        ]],
+        ['title' => 'Fyzioterapia u klienta doma', 'note' => 'Cena domácej návštevy zahŕňa dopravu v rámci dohodnutej oblasti a vzdialenosti pacienta.', 'rows' => [
+            ['Fyzioterapia (30 min.)', '30 €'],
+            ['Fyzioterapia (60 min.)', '35 €'],
+            ['Komplexná fyzioterapia (60 min.)', '40 €'],
+        ]],
     ],
+    'items' => [],
     'notes' => [
-        'Ceny sú orientačné a môžu sa líšiť podľa rozsahu terapie a vzdialenosti výjazdu.',
-        'Presnú cenu vám vždy poviem pri objednaní, ešte pred návštevou.',
-        'Platba je možná na mieste po terapii.',
+        'Jednotlivé terapie a ich kombinácie sa prispôsobujú individuálnym potrebám klienta.',
     ],
 ];

@@ -3,17 +3,35 @@ meta([
     'title' => 'Cenník fyzioterapie pre zvieratá',
     'description' => t('pricing_meta'),
 ]);
-if (cfg('demo_content')) {
+if (cfg('demo_pricing')) {
     meta(['noindex' => true]);
 }
 $headTitle = t('pricing_h1');
 $headLead = t('pricing_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
+$demoFlag = 'demo_pricing';
 include dirname(__DIR__) . '/partials/demo-notice.php';
 $pricing = $GLOBALS['PRICING'];
 ?>
 <section class="section section--flush">
   <div class="container">
+    <?php if (!empty($pricing['groups'])): ?>
+    <div class="price-groups">
+      <?php foreach ($pricing['groups'] as $g): ?>
+        <article class="price-group" data-reveal>
+          <h2><?= e($g['title']) ?></h2>
+          <ul class="price-rows">
+            <?php foreach ($g['rows'] as [$rowName, $rowPrice]): ?>
+              <li><span><?= e($rowName) ?></span><strong><?= e($rowPrice) ?></strong></li>
+            <?php endforeach; ?>
+          </ul>
+          <?php if (!empty($g['note'])): ?><p class="price-group__note"><?= icon('shield') ?> <span><?= e($g['note']) ?></span></p><?php endif; ?>
+        </article>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (!empty($pricing['items'])): ?>
     <div class="pricing">
       <?php foreach ($pricing['items'] as $p): ?>
         <article class="price-card<?= !empty($p['featured']) ? ' price-card--featured' : '' ?>" data-reveal>
@@ -34,9 +52,10 @@ $pricing = $GLOBALS['PRICING'];
         </article>
       <?php endforeach; ?>
     </div>
+    <?php endif; ?>
 
     <ul class="price-notes">
-      <?php foreach ($pricing['notes'] as $n): ?><li><?= icon('shield') ?> <span><?= e($n) ?></span></li><?php endforeach; ?>
+      <?php foreach ($pricing['notes'] ?? [] as $n): ?><li><?= icon('shield') ?> <span><?= e($n) ?></span></li><?php endforeach; ?>
     </ul>
   </div>
 </section>

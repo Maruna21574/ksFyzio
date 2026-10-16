@@ -37,6 +37,9 @@ return [
     // Po doplnení skutočných údajov nastavte na false.
     'demo_content' => true,
 
+    // true = Cenník zobrazuje upozornenie „ukážkový obsah“ a nie je indexovaný. Skutočný cenník je už vložený.
+    'demo_pricing' => false,
+
     // Odosielanie formulárov
     'mail_to'   => 'ks.fyzio@gmail.com', // kam chodia objednávky a správy
     'mail_from' => '',                   // prázdne = noreply@<doména webu>; odporúčané nastaviť na adresu z vašej domény
