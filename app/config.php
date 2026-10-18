@@ -42,6 +42,6 @@ return [
 
     // Odosielanie formulárov
     'mail_to'   => 'ks.fyzio@gmail.com', // kam chodia objednávky a správy
-    'mail_from' => '',                   // prázdne = noreply@<doména webu>; odporúčané nastaviť na adresu z vašej domény
+    'mail_from' => 'info@ksfyzio.sk',    // odosielateľ mailov (adresa z vašej domény; prázdne = noreply@<doména webu>)
     'subject_prefix' => '[ksfyzio.sk]',
 ];

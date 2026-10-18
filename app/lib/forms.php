@@ -129,10 +129,7 @@ function handle_form(string $which): array
         return $finish($state);
     }
 
-    $subject = cfg('subject_prefix') . ' ' . ($which === 'booking' ? 'Nová objednávka – ' : 'Nová správa – ') . $values['name'];
-    $body = $which === 'booking' ? booking_mail_body($values) : contact_mail_body($values);
-
-    if (send_site_mail($subject, $body, $values['email'], $values['name'])) {
+    if (send_form_mails($which, $values)) {
         $state['sent'] = true;
         $state['values'] = [];
         $_SESSION['sent_log'][] = time();
@@ -217,71 +214,152 @@ function validate_contact(array $in): array
     return [$v, $err];
 }
 
-function booking_mail_body(array $v): string
-{
-    $svc = form_service_options()[$v['service']] ?? $v['service'];
-    $lines = [
-        'NOVÁ OBJEDNÁVKA Z WEBU',
-        str_repeat('-', 30),
-        'Meno:        ' . $v['name'],
-        'Telefón:     ' . $v['phone'],
-        'E-mail:      ' . $v['email'],
-        'Obec/mesto:  ' . $v['location'],
-        '',
-        'Pes:         ' . $v['dog_name'],
-        'Plemeno:     ' . ($v['breed'] ?: '–'),
-        'Vek:         ' . ($v['age'] ?: '–'),
-        '',
-        'Služba:      ' . $svc,
-        'Termín:      ' . ($v['date'] ? format_date_sk($v['date']) : 'neurčený') . ', ' . $v['time'],
-        '',
-        'Popis ťažkostí:',
-        $v['message'] ?: '–',
-    ];
-    return implode("\n", $lines) . mail_footer();
-}
-
-function contact_mail_body(array $v): string
-{
-    $lines = [
-        'NOVÁ SPRÁVA Z KONTAKTNÉHO FORMULÁRA',
-        str_repeat('-', 30),
-        'Meno:     ' . $v['name'],
-        'E-mail:   ' . $v['email'],
-        'Telefón:  ' . ($v['phone'] ?: '–'),
-        '',
-        $v['message'],
-    ];
-    return implode("\n", $lines) . mail_footer();
-}
-
 function mail_footer(): string
 {
     return "\n\n" . str_repeat('-', 30) . "\nOdoslané: " . date('j.n.Y H:i') . "\nSúhlas so spracovaním údajov: áno";
 }
 
-function send_site_mail(string $subject, string $body, string $replyEmail, string $replyName): bool
+/** Zhrnutie údajov z formulára ako pole popisok => hodnota. */
+function mail_summary(string $which, array $v): array
+{
+    if ($which === 'contact') {
+        return [
+            'Meno'    => $v['name'],
+            'E-mail'  => $v['email'],
+            'Telefón' => $v['phone'] ?: '–',
+        ];
+    }
+    $svc = form_service_options()[$v['service']] ?? $v['service'];
+    return [
+        'Meno'       => $v['name'],
+        'Telefón'    => $v['phone'],
+        'E-mail'     => $v['email'],
+        'Obec/mesto' => $v['location'],
+        'Pes'        => $v['dog_name'],
+        'Plemeno'    => $v['breed'] ?: '–',
+        'Vek'        => $v['age'] ?: '–',
+        'Služba'     => $svc,
+        'Termín'     => ($v['date'] ? format_date_sk($v['date']) : 'neurčený') . ', ' . $v['time'],
+    ];
+}
+
+/** Zhrnutie pre klienta – bez jeho mena a e-mailu, tie pozná. */
+function client_summary(string $which, array $v): array
+{
+    return $which === 'booking' ? array_diff_key(mail_summary('booking', $v), ['Meno' => 1, 'E-mail' => 1]) : [];
+}
+
+function mail_text_rows(array $rows): string
+{
+    $out = [];
+    foreach ($rows as $k => $val) {
+        $out[] = $k . ':' . str_repeat(' ', max(1, 14 - mb_strlen($k . ':'))) . $val;
+    }
+    return implode("\n", $out);
+}
+
+function admin_mail_text(string $which, array $v): string
+{
+    $head = $which === 'booking' ? 'NOVÁ OBJEDNÁVKA Z WEBU' : 'NOVÁ SPRÁVA Z KONTAKTNÉHO FORMULÁRA';
+    $label = $which === 'booking' ? 'Popis ťažkostí' : 'Správa';
+    return $head . "\n" . str_repeat('-', 30) . "\n"
+        . mail_text_rows(mail_summary($which, $v))
+        . "\n\n" . $label . ":\n" . ($v['message'] ?: '–')
+        . mail_footer();
+}
+
+function client_mail_text(string $which, array $v): string
+{
+    $booking = $which === 'booking';
+    $intro = $booking
+        ? 'ďakujeme za objednávku. Prijali sme ju a čoskoro sa vám ozveme, aby sme dohodli termín.'
+        : 'ďakujeme za vašu správu. Prijali sme ju a čoskoro sa vám ozveme.';
+    $rows = client_summary($which, $v);
+    return 'Dobrý deň, ' . $v['name'] . ",\n\n" . $intro
+        . "\n\n" . ($booking ? 'Zhrnutie objednávky' : 'Vaša správa') . "\n" . str_repeat('-', 30) . "\n"
+        . ($rows ? mail_text_rows($rows) . "\n\n" : '')
+        . ($v['message'] !== '' ? ($booking ? 'Popis ťažkostí' : 'Správa') . ":\n" . $v['message'] . "\n\n" : '')
+        . 'Ak je to naliehavé, zavolajte nám na ' . cfg('phone') . ' alebo napíšte na ' . cfg('email') . ".\n\n"
+        . "Tešíme sa na vás,\n" . cfg('name') . ' – ' . cfg('tagline') . "\n" . absolute_url('/') . "\n\n"
+        . 'Tento e-mail ste dostali, lebo bol z vašej adresy odoslaný formulár na našom webe. Ak ste ho neodoslali vy, môžete ho ignorovať.';
+}
+
+function mail_html(string $title, string $preheader, string $inner): string
+{
+    return view('mail/layout', ['title' => $title, 'pre' => $preheader, 'inner' => $inner]);
+}
+
+/** Odošle upozornenie prevádzkovateľovi a potvrdenie klientovi. Úspech = upozornenie prevádzkovateľovi odišlo. */
+function send_form_mails(string $which, array $v): bool
+{
+    $booking = $which === 'booking';
+    $adminHtml = mail_html(
+        $booking ? 'Nová objednávka z webu' : 'Nová správa z webu',
+        $v['name'] . ($v['phone'] !== '' ? ' · ' . $v['phone'] : ''),
+        view('mail/admin', ['which' => $which, 'v' => $v, 'rows' => mail_summary($which, $v)])
+    );
+    $ok = send_site_mail([
+        'to'         => cfg('mail_to'),
+        'subject'    => cfg('subject_prefix') . ' ' . ($booking ? 'Nová objednávka – ' : 'Nová správa – ') . $v['name'],
+        'text'       => admin_mail_text($which, $v),
+        'html'       => $adminHtml,
+        'replyEmail' => $v['email'],
+        'replyName'  => $v['name'],
+        'fromName'   => cfg('name') . ' web',
+    ]);
+    if (!$ok) {
+        return false;
+    }
+
+    // Potvrdenie klientovi – jeho zlyhanie nesmie zhodiť odoslanie formulára.
+    $clientHtml = mail_html(
+        $booking ? 'Ďakujeme za objednávku' : 'Ďakujeme za správu',
+        $booking ? 'Prijali sme vašu objednávku, čoskoro sa vám ozveme.' : 'Prijali sme vašu správu, čoskoro sa vám ozveme.',
+        view('mail/client', ['which' => $which, 'v' => $v, 'rows' => client_summary($which, $v)])
+    );
+    send_site_mail([
+        'to'         => $v['email'],
+        'subject'    => ($booking ? 'Potvrdenie objednávky – ' : 'Prijali sme vašu správu – ') . cfg('name'),
+        'text'       => client_mail_text($which, $v),
+        'html'       => $clientHtml,
+        'replyEmail' => cfg('mail_to'),
+        'replyName'  => cfg('name'),
+        'fromName'   => cfg('name'),
+    ]);
+    return true;
+}
+
+/** Odošle multipart (text + HTML) e-mail. Voľby: to, subject, text, html, replyEmail, replyName, fromName. */
+function send_site_mail(array $o): bool
 {
     $host = preg_replace('/^www\./', '', explode(':', $_SERVER['HTTP_HOST'] ?? 'localhost')[0]);
     $from = cfg('mail_from') ?: 'noreply@' . $host;
-    $to = cfg('mail_to');
 
     $enc = fn (string $s): string => mb_encode_mimeheader($s, 'UTF-8', 'B', "\r\n");
+    $b64 = fn (string $s): string => chunk_split(base64_encode($s), 76, "\r\n");
+    $boundary = '=_ksf_' . bin2hex(random_bytes(12));
+
     $headers = [
-        'From: ' . $enc(cfg('name') . ' web') . ' <' . $from . '>',
-        'Reply-To: ' . $enc($replyName) . ' <' . $replyEmail . '>',
+        'From: ' . $enc($o['fromName']) . ' <' . $from . '>',
+        'Reply-To: ' . $enc($o['replyName']) . ' <' . $o['replyEmail'] . '>',
         'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
+        'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
         'X-Mailer: ksfyzio-web',
     ];
+    $body = '--' . $boundary . "\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n"
+        . $b64($o['text'])
+        . '--' . $boundary . "\r\n"
+        . "Content-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n"
+        . $b64($o['html'])
+        . '--' . $boundary . "--\r\n";
 
-    $ok = @mail($to, $enc($subject), $body, implode("\r\n", $headers), '-f' . $from);
+    $ok = @mail($o['to'], $enc($o['subject']), $body, implode("\r\n", $headers), '-f' . $from);
 
     if (!$ok && is_local_host()) {
         // Lokálny vývoj (Laragon bez SMTP) – uložíme správu do súboru.
         $file = dirname(__DIR__) . '/storage/mail-dev.log';
-        @file_put_contents($file, '=== ' . date('c') . " -> $to\nSubject: $subject\n$body\n\n", FILE_APPEND | LOCK_EX);
+        @file_put_contents($file, '=== ' . date('c') . ' -> ' . $o['to'] . "\nSubject: " . $o['subject'] . "\n" . $o['text'] . "\n\n", FILE_APPEND | LOCK_EX);
         return true;
     }
     return $ok;
