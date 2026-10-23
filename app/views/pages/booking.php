@@ -63,16 +63,19 @@ include dirname(__DIR__) . '/partials/page-head.php';
           <div class="field field--check<?= isset($form['errors']['consent']) ? ' has-error' : '' ?>">
             <label class="check">
               <input type="checkbox" name="consent" value="1" id="f-consent" required<?= !empty($form['values']['consent']) ? ' checked' : '' ?>>
-              <span>Súhlasím so spracovaním osobných údajov na účel vybavenia objednávky. <a href="<?= e(url('/ochrana-osobnych-udajov')) ?>" target="_blank">Viac informácií</a></span>
+              <span>Súhlasím so spracovaním osobných údajov uvedených vo formulári (moje a údajov o mojom zvierati) na účel vybavenia objednávky a dohodnutia termínu, a to v rozsahu a za podmienok uvedených v <a href="<?= e(url('/ochrana-osobnych-udajov')) ?>" target="_blank">zásadách ochrany osobných údajov</a>. Súhlas môžem kedykoľvek odvolať.</span>
             </label>
             <p class="field__error" id="f-consent-err" role="alert"><?= e($form['errors']['consent'] ?? '') ?></p>
           </div>
+
+          <?= pow_fields() ?>
 
           <button class="btn btn--primary btn--lg btn--block" type="submit" data-submit>
             <span class="btn__label">Odoslať objednávku</span>
             <span class="btn__loading" aria-hidden="true">Odosielam…</span>
           </button>
           <p class="form-note">Polia označené <span class="req">*</span> sú povinné.</p>
+          <p class="form-note form-note--legal">Údaje použijeme len na vybavenie objednávky. Formulár je pred spamom chránený bez sledovania a bez služieb tretích strán. Podrobnosti v <a href="<?= e(url('/ochrana-osobnych-udajov')) ?>">ochrane osobných údajov</a> a <a href="<?= e(url('/cookies')) ?>">informáciách o cookies</a>.</p>
         </form>
       <?php endif; ?>
     </div>

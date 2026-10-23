@@ -16,8 +16,8 @@ $booking = $which === 'booking';
   <?php endif; ?>
 </p>
 
-<p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#0a3a7a;"><?= $booking ? 'Zhrnutie objednávky' : 'Vaša správa' ?></p>
 <?php if ($rows): ?>
+<p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#0a3a7a;">Zhrnutie objednávky</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #d9e6ef;border-radius:12px;border-collapse:separate;overflow:hidden;">
   <?php $i = 0; foreach ($rows as $label => $value): ?>
     <tr>
@@ -26,12 +26,6 @@ $booking = $which === 'booking';
     </tr>
   <?php $i++; endforeach; ?>
 </table>
-<?php endif; ?>
-<?php if ($v['message'] !== ''): ?>
-  <?php if ($rows): ?><p style="margin:16px 0 6px;font-size:14px;color:#566275;"><?= $booking ? 'Popis ťažkostí' : 'Správa' ?></p><?php endif; ?>
-  <div style="padding:14px 16px;background:#f1f9fe;border-left:4px solid #13b5d8;border-radius:8px;font-size:15px;line-height:1.6;color:#1d2838;">
-    <?= nl2br(e($v['message'])) ?>
-  </div>
 <?php endif; ?>
 
 <p style="margin:24px 0 8px;">

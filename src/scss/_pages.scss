@@ -80,6 +80,11 @@
     border-radius: 0 var(--radius) var(--radius) 0; font-size: 1.2rem; font-weight: 800; color: var(--navy);
   }
   &--narrow { max-width: 760px; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { padding: .6rem .8rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tint-2); }
+  th { color: var(--navy); background: var(--tint); }
+  .updated { color: var(--muted); font-size: .9rem; }
 }
 .article-figure { margin: 0 0 2rem; img { border-radius: var(--radius-lg); box-shadow: var(--shadow); width: 100%; max-width: 620px; margin-inline: auto; } }
 

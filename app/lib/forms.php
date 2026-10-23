@@ -3,6 +3,127 @@ declare(strict_types=1);
 
 const FORM_MIN_SECONDS = 3;     // rýchlejšie odoslanie = bot
 const FORM_MAX_PER_HOUR = 5;    // limit odoslaní na reláciu
+const FORM_IP_PER_HOUR = 3;     // limit úspešných odoslaní z jednej IP adresy
+const FORM_IP_PER_DAY = 10;
+const FORM_CONFIRM_PER_DAY = 1; // potvrdení klientovi na jednu e-mailovú adresu za deň
+const FORM_MAX_LINKS = 1;       // najviac odkazov v správe
+
+/* ---------- Limit podľa IP / kľúča (app/storage/ratelimit.json) ---------- */
+
+function client_ip_key(): string
+{
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $bin = @inet_pton($ip);
+    if ($bin !== false && strlen($bin) === 16) { // IPv6: počítame celú sieť /64
+        $ip = bin2hex(substr($bin, 0, 8));
+    }
+    return hash('sha256', $ip);
+}
+
+/** Počet záznamov kľúča v danom okne (sekundy). */
+function rate_count(string $key, int $window): int
+{
+    $all = json_decode((string) @file_get_contents(storage_dir() . '/ratelimit.json'), true);
+    $now = time();
+    return count(array_filter((array) ($all[$key] ?? []), fn ($t) => $t > $now - $window));
+}
+
+/** Zapíše udalosť pre kľúč; záznamy staršie ako 24 h sa zahadzujú. */
+function rate_hit(string $key): void
+{
+    $dir = storage_dir();
+    if (!is_dir($dir) && !@mkdir($dir, 0755, true)) {
+        return;
+    }
+    $fp = @fopen($dir . '/ratelimit.json', 'c+');
+    if (!$fp) {
+        return;
+    }
+    if (flock($fp, LOCK_EX)) {
+        $all = json_decode((string) stream_get_contents($fp), true);
+        $all = is_array($all) ? $all : [];
+        $now = time();
+        foreach ($all as $k => $times) {
+            $all[$k] = array_values(array_filter((array) $times, fn ($t) => $t > $now - 86400));
+            if (!$all[$k]) {
+                unset($all[$k]);
+            }
+        }
+        $all[$key][] = $now;
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode($all));
+        fflush($fp);
+        flock($fp, LOCK_UN);
+    }
+    fclose($fp);
+}
+
+function ip_rate_blocked(): bool
+{
+    $k = 'ip:' . client_ip_key();
+    return rate_count($k, 3600) >= FORM_IP_PER_HOUR || rate_count($k, 86400) >= FORM_IP_PER_DAY;
+}
+
+/* ---------- Proof-of-work (vlastná ochrana bez služieb tretích strán) ----------
+ * Server dá prehliadaču náhodnú „soľ“; prehliadač na pozadí nájde číslo (nonce), pre ktoré
+ * SHA-256("soľ:nonce") začína aspoň POW_BITS nulovými bitmi. Človeka to nestojí nič (pár sekúnd na pozadí),
+ * hromadné odosielanie robotom sa však výrazne predraží. Vyžaduje JavaScript a bezpečný kontext (HTTPS). */
+
+const POW_BITS = 15;
+
+/** Lokálny vývoj býva na http://*.test (bez crypto.subtle), tam kontrolu preskakujeme. */
+function pow_enabled(): bool
+{
+    return !is_local_host();
+}
+
+function pow_salt(): string
+{
+    return $_SESSION['pow'] ??= bin2hex(random_bytes(12));
+}
+
+function pow_rotate(): void
+{
+    $_SESSION['pow'] = bin2hex(random_bytes(12));
+}
+
+/** Overí nonce voči soli v relácii; soľ sa po každom overení vymení (jednorazové). */
+function pow_verify(string $nonce): bool
+{
+    $salt = (string) ($_SESSION['pow'] ?? '');
+    pow_rotate();
+    if ($salt === '' || !preg_match('/^[0-9]{1,12}$/', $nonce)) {
+        return false;
+    }
+    $hash = hash('sha256', $salt . ':' . $nonce, true);
+    $bits = 0;
+    foreach (str_split($hash) as $byte) {
+        $b = ord($byte);
+        if ($b === 0) {
+            $bits += 8;
+            continue;
+        }
+        $bits += 7 - (int) floor(log($b, 2));
+        break;
+    }
+    return $bits >= POW_BITS;
+}
+
+/** Skryté polia pre formulár: soľ pre skript a miesto pre výsledok. */
+function pow_fields(): string
+{
+    if (!pow_enabled()) {
+        return '';
+    }
+    return '<input type="hidden" name="pow" value="" data-pow-salt="' . e(pow_salt()) . '" data-pow-bits="' . POW_BITS . '">';
+}
+
+/** Počet odkazov v texte (http://, https://, www.). */
+function count_links(string $s): int
+{
+    return (int) preg_match_all('~(?:https?://|www\.)\S+~iu', $s);
+}
 
 function form_session(): void
 {
@@ -86,6 +207,7 @@ function handle_form(string $which): array
                 'errors' => $state['errors'],
                 'error'  => $state['error_global'],
                 'csrf'   => $_SESSION['csrf'] ?? '',
+                'pow'    => pow_enabled() ? pow_salt() : '',
             ], JSON_UNESCAPED_UNICODE);
             exit;
         }
@@ -120,6 +242,11 @@ function handle_form(string $which): array
         return $finish($state);
     }
 
+    if (ip_rate_blocked()) {
+        $state['error_global'] = 'Z vašej adresy bolo odoslaných príliš veľa správ. Zavolajte nám prosím na ' . cfg('phone') . '.';
+        return $finish($state);
+    }
+
     $fn = $which === 'booking' ? 'validate_booking' : 'validate_contact';
     [$values, $errors] = $fn($in);
     $state['values'] = $values;
@@ -129,7 +256,15 @@ function handle_form(string $which): array
         return $finish($state);
     }
 
+    // Proof-of-work až po validácii polí, aby chyba vo formulári nespotrebovala jednorazovú soľ.
+    if (pow_enabled() && !pow_verify((string) ($in['pow'] ?? ''))) {
+        $state['error_global'] = 'Nepodarilo sa overiť, že formulár odosiela človek (vyžaduje sa zapnutý JavaScript). Skúste to prosím znova alebo nám zavolajte na ' . cfg('phone') . '.';
+        $state['values'] = $values;
+        return $finish($state);
+    }
+
     if (send_form_mails($which, $values)) {
+        rate_hit('ip:' . client_ip_key());
         $state['sent'] = true;
         $state['values'] = [];
         $_SESSION['sent_log'][] = time();
@@ -160,6 +295,19 @@ function validate_common(array $in, array &$v, array &$err): void
     $v['consent'] = !empty($in['consent']) ? '1' : '';
     if ($v['consent'] === '') {
         $err['consent'] = 'Pre odoslanie je potrebný súhlas so spracovaním údajov.';
+    }
+}
+
+/** Krátke polia nesmú obsahovať odkazy; v správe je povolený najviac jeden. */
+function validate_links(array $v, array &$err, array $short, string $messageField = 'message'): void
+{
+    foreach ($short as $f) {
+        if (!isset($err[$f]) && count_links($v[$f] ?? '') > 0) {
+            $err[$f] = 'Odkazy tu nie sú povolené.';
+        }
+    }
+    if (!isset($err[$messageField]) && count_links($v[$messageField] ?? '') > FORM_MAX_LINKS) {
+        $err[$messageField] = 'Správa môže obsahovať najviac jeden odkaz.';
     }
 }
 
@@ -199,6 +347,7 @@ function validate_booking(array $in): array
             $err['date'] = 'Vyberte prosím dnešný alebo budúci dátum.';
         }
     }
+    validate_links($v, $err, ['name', 'location', 'dog_name', 'breed', 'age']);
     return [$v, $err];
 }
 
@@ -211,6 +360,7 @@ function validate_contact(array $in): array
     if (mb_strlen($v['message']) < 5) {
         $err['message'] = 'Napíšte nám prosím, s čím vám môžeme pomôcť.';
     }
+    validate_links($v, $err, ['name']);
     return [$v, $err];
 }
 
@@ -243,10 +393,10 @@ function mail_summary(string $which, array $v): array
     ];
 }
 
-/** Zhrnutie pre klienta – bez jeho mena a e-mailu, tie pozná. */
+/** Zhrnutie pre klienta – len hodnoty z pevných zoznamov, žiadny voľný text (ochrana pred zneužitím na spam). */
 function client_summary(string $which, array $v): array
 {
-    return $which === 'booking' ? array_diff_key(mail_summary('booking', $v), ['Meno' => 1, 'E-mail' => 1]) : [];
+    return $which === 'booking' ? array_intersect_key(mail_summary('booking', $v), ['Služba' => 1, 'Termín' => 1]) : [];
 }
 
 function mail_text_rows(array $rows): string
@@ -275,10 +425,8 @@ function client_mail_text(string $which, array $v): string
         ? 'ďakujeme za objednávku. Prijali sme ju a čoskoro sa vám ozveme, aby sme dohodli termín.'
         : 'ďakujeme za vašu správu. Prijali sme ju a čoskoro sa vám ozveme.';
     $rows = client_summary($which, $v);
-    return 'Dobrý deň, ' . $v['name'] . ",\n\n" . $intro
-        . "\n\n" . ($booking ? 'Zhrnutie objednávky' : 'Vaša správa') . "\n" . str_repeat('-', 30) . "\n"
-        . ($rows ? mail_text_rows($rows) . "\n\n" : '')
-        . ($v['message'] !== '' ? ($booking ? 'Popis ťažkostí' : 'Správa') . ":\n" . $v['message'] . "\n\n" : '')
+    return 'Dobrý deň, ' . $v['name'] . ",\n\n" . $intro . "\n\n"
+        . ($rows ? 'Zhrnutie objednávky' . "\n" . str_repeat('-', 30) . "\n" . mail_text_rows($rows) . "\n\n" : '')
         . 'Ak je to naliehavé, zavolajte nám na ' . cfg('phone') . ' alebo napíšte na ' . cfg('email') . ".\n\n"
         . "Tešíme sa na vás,\n" . cfg('name') . ' – ' . cfg('tagline') . "\n" . absolute_url('/') . "\n\n"
         . 'Tento e-mail ste dostali, lebo bol z vašej adresy odoslaný formulár na našom webe. Ak ste ho neodoslali vy, môžete ho ignorovať.';
@@ -312,6 +460,12 @@ function send_form_mails(string $which, array $v): bool
     }
 
     // Potvrdenie klientovi – jeho zlyhanie nesmie zhodiť odoslanie formulára.
+    // Na jednu adresu najviac raz denne, aby sa web nedal zneužiť na zasielanie pošty cudzím ľuďom.
+    $mailKey = 'mail:' . hash('sha256', strtolower($v['email']));
+    if (rate_count($mailKey, 86400) >= FORM_CONFIRM_PER_DAY) {
+        return true;
+    }
+    rate_hit($mailKey);
     $clientHtml = mail_html(
         $booking ? 'Ďakujeme za objednávku' : 'Ďakujeme za správu',
         $booking ? 'Prijali sme vašu objednávku, čoskoro sa vám ozveme.' : 'Prijali sme vašu správu, čoskoro sa vám ozveme.',

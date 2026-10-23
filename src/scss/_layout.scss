@@ -119,6 +119,19 @@
   a { color: var(--muted); text-decoration: none; &:hover { color: var(--blue); text-decoration: underline; } }
 }
 
+/* ---------- Informácia o cookies (vľavo dole) ---------- */
+.cookie-notice {
+  position: fixed; left: .75rem; right: .75rem; bottom: calc(88px + env(safe-area-inset-bottom)); z-index: 95;
+  display: grid; gap: .75rem; padding: 1rem 1.1rem; background: #fff; color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  font-size: .92rem; line-height: 1.5;
+  p { margin: 0; }
+  a { color: var(--blue); text-decoration: underline; }
+  &__actions { display: flex; flex-wrap: wrap; gap: .6rem; .btn { flex: 1 1 8rem; } }
+  &[hidden] { display: none; }
+  @include up($bp-md) { left: 1.5rem; right: auto; bottom: 1.5rem; max-width: 390px; }
+}
+
 /* ---------- Späť hore ---------- */
 .to-top {
   position: fixed; right: 1rem; bottom: calc(88px + env(safe-area-inset-bottom)); z-index: 80;

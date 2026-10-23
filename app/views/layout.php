@@ -84,6 +84,14 @@ if ($sameAs) {
     <a class="callbar__btn callbar__btn--book" href="<?= e(url('/rezervacia')) ?>"><?= icon('calendar') ?> Objednať sa</a>
   </div>
 
+  <div class="cookie-notice" role="region" aria-label="Informácia o cookies" data-cookie-notice hidden>
+    <p><strong>Cookies</strong><br>Nevyhnutné cookies používame vždy – chránia formuláre pred spamom a web bez nich nefunguje. Voliteľné (analytické, marketingové) cookies momentálne nepoužívame, vašu voľbu si však zapamätáme pre prípad, že ich v budúcnosti pridáme. <a href="<?= e(url('/cookies')) ?>">Viac informácií</a></p>
+    <div class="cookie-notice__actions">
+      <button class="btn btn--outline btn--sm" type="button" data-cookie-choice="rejected">Odmietnuť</button>
+      <button class="btn btn--primary btn--sm" type="button" data-cookie-choice="accepted">Prijať všetko</button>
+    </div>
+  </div>
+
   <button class="to-top" type="button" aria-label="Späť na začiatok stránky" data-to-top hidden>
     <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
   </button>

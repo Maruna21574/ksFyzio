@@ -3,14 +3,9 @@ meta([
     'title' => 'Cenník fyzioterapie pre zvieratá',
     'description' => t('pricing_meta'),
 ]);
-if (cfg('demo_pricing')) {
-    meta(['noindex' => true]);
-}
 $headTitle = t('pricing_h1');
 $headLead = t('pricing_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
-$demoFlag = 'demo_pricing';
-include dirname(__DIR__) . '/partials/demo-notice.php';
 $pricing = $GLOBALS['PRICING'];
 ?>
 <section class="section section--flush">

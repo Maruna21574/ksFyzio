@@ -34,7 +34,7 @@ function adm_pages(): array
         'clanky'    => ['Články (Tipy a rady)', 'Články s fotkou a textom.', '📰', 'data-articles', 'items'],
         'signaly'   => ['Test pohybu – signály', 'Zoznam signálov v teste pohybu psa.', '✅', 'data-signals', 'items'],
         'fotky'     => ['Fotky webu', 'Hlavná fotka, maskot a fotka na stránke O nás.', '🖼️', 'images', null],
-        'nastavenia' => ['Kontakty a nastavenia', 'Telefón, e-mail, sociálne siete, sekcia o vás, ukážkový obsah.', '⚙️', 'config', null],
+        'nastavenia' => ['Kontakty a nastavenia', 'Telefón, e-mail, sociálne siete, sekcia o vás.', '⚙️', 'config', null],
     ];
 }
 
@@ -147,8 +147,6 @@ function adm_schema(string $page, ?string $group = null): array
                 adm_f('city', 'text', 'Mesto', ['max' => 80]),
                 adm_f('zip', 'text', 'PSČ', ['max' => 12]),
                 adm_f('area', 'lines', 'Oblasť pôsobenia (jedna na riadok)'),
-                adm_f('demo_pricing', 'checkbox', 'Cenník je ukážkový (zobrazí upozornenie a skryje ho pred Googlom)'),
-                adm_f('demo_content', 'checkbox', 'Príbehy sú ukážkové (zobrazí upozornenie a skryje ich pred Googlom; vypnite, keď sú tam skutočné príbehy)'),
                 adm_f('therapist', 'group', 'O vás (stránka O nás)', ['fields' => [
                     adm_f('name', 'text', 'Meno', ['max' => 80]),
                     adm_f('role', 'text', 'Povolanie', ['max' => 100]),

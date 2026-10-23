@@ -2,6 +2,7 @@
 import { initQuiz } from './quiz.js';
 import { initCompare } from './compare.js';
 import { initAgeCalc } from './agecalc.js';
+import { solvePow } from './pow.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -101,6 +102,17 @@ function initForms() {
     const submit = $('[data-submit]', form);
     const controls = () => $$('input:not([type=hidden]):not([name=website]), select, textarea', form);
 
+    // Proof-of-work: výpočet sa spustí hneď po načítaní, kým používateľ vypĺňa formulár.
+    const powInput = $('input[name=pow]', form);
+    const powBits = Number(powInput?.dataset.powBits) || 15;
+    let powTask = null;
+    const startPow = (salt) => {
+      if (!powInput || !salt) return;
+      powInput.value = '';
+      powTask = solvePow(salt, powBits).then((n) => { powInput.value = n; }).catch(() => {});
+    };
+    startPow(powInput?.dataset.powSalt);
+
     const showAlert = (msg) => {
       if (!alertBox) return;
       alertBox.textContent = msg || '';
@@ -133,6 +145,7 @@ function initForms() {
       submit && (submit.disabled = true);
 
       try {
+        if (powTask) await powTask; // overenie „nie som robot“ beží na pozadí od načítania stránky
         const res = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
@@ -142,6 +155,7 @@ function initForms() {
         const data = await res.json();
         const csrf = $('input[name=csrf]', form);
         if (csrf && data.csrf) csrf.value = data.csrf;
+        if (data.pow) startPow(data.pow); // soľ je jednorazová, pripravíme novú
 
         if (data.ok) {
           showSuccess(form);
@@ -212,7 +226,35 @@ function initToTop() {
   });
 }
 
+/* ---------- Informácia o cookies: zobrazí sa, kým ju návštevník neodklikne ---------- */
+function initCookieNotice() {
+  const box = $('[data-cookie-notice]');
+  if (!box) return;
+  const KEY = 'ksf_cookie_consent';
+  const get = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
+  const set = (v) => { try { localStorage.setItem(KEY, v); } catch (e) { /* úložisko nedostupné */ } };
+
+  // Stav súhlasu pre budúce voliteľné skripty (analytika a pod.): window.ksfConsent === 'accepted'
+  window.ksfConsent = get();
+  if (!window.ksfConsent) box.hidden = false;
+
+  $$('[data-cookie-choice]', box).forEach((btn) => btn.addEventListener('click', () => {
+    window.ksfConsent = btn.dataset.cookieChoice;
+    set(window.ksfConsent);
+    box.hidden = true;
+    document.dispatchEvent(new CustomEvent('ksf:consent', { detail: window.ksfConsent }));
+  }));
+
+  // Odkazy „Nastavenia cookies“ znovu otvoria voľbu.
+  $$('[data-cookie-reopen]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    box.hidden = false;
+    $('[data-cookie-choice]', box).focus();
+  }));
+}
+
 initHeader();
+initCookieNotice();
 initDropdowns();
 initToTop();
 initReveal();

@@ -27,6 +27,8 @@
         <li><a href="<?= e(url('/rezervacia')) ?>">Objednať sa</a></li>
         <li><a href="<?= e(url('/kontakt')) ?>">Kontakt</a></li>
         <li><a href="<?= e(url('/ochrana-osobnych-udajov')) ?>">Ochrana osobných údajov</a></li>
+        <li><a href="<?= e(url('/cookies')) ?>">Cookies</a></li>
+        <li><a href="<?= e(url('/cookies')) ?>" data-cookie-reopen>Nastavenia cookies</a></li>
       </ul>
     </div>
 

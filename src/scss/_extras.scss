@@ -1,10 +1,5 @@
 @use 'tokens' as *;
 
-/* ---------- Ukážkový obsah ---------- */
-.demo-notice {
-  background: #fff7e0; border-bottom: 1px solid #f0d78a; color: #6b4e00; font-size: .95rem; padding: .7rem 0;
-}
-
 /* ---------- Cenník ---------- */
 .price-groups {
   display: grid; gap: 1.25rem; margin-bottom: 2rem;

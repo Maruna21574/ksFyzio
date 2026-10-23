@@ -58,7 +58,7 @@
   &[hidden] { display: none; }
 }
 .form-note { margin: 0; font-size: .88rem; color: var(--muted); text-align: center; }
-
+.form-note--legal { font-size: .8rem; a { text-decoration: underline; } }
 .form-success {
   text-align: center; padding: 1.5rem .5rem; outline: 0;
   h2 { margin-bottom: .4em; }

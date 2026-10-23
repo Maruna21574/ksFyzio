@@ -33,13 +33,6 @@ return [
     'company_name' => '',
     'ico'          => '',
 
-    // true = stránky Cenník a Príbehy zobrazujú upozornenie „ukážkový obsah“ a nie sú indexované.
-    // Po doplnení skutočných údajov nastavte na false.
-    'demo_content' => true,
-
-    // true = Cenník zobrazuje upozornenie „ukážkový obsah“ a nie je indexovaný. Skutočný cenník je už vložený.
-    'demo_pricing' => false,
-
     // Odosielanie formulárov
     'mail_to'   => 'ks.fyzio@gmail.com', // kam chodia objednávky a správy
     'mail_from' => 'info@ksfyzio.sk',    // odosielateľ mailov (adresa z vašej domény; prázdne = noreply@<doména webu>)

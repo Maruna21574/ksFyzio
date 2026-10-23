@@ -117,6 +117,7 @@ function route(string $path): array
         '/pribehy'               => 'stories',
         '/kontakt'               => 'contact',
         '/ochrana-osobnych-udajov' => 'privacy',
+        '/cookies'               => 'cookies',
     ];
     if (isset($static[$path])) {
         return [$static[$path], [], 200];
@@ -132,13 +133,9 @@ function route(string $path): array
 
 function sitemap_urls(): array
 {
-    $urls = ['/', '/sluzby', '/ako-to-funguje', '/o-nas', '/tipy', '/test-pohybu', '/vek-psa', '/rezervacia', '/kontakt', '/ochrana-osobnych-udajov'];
-    if (!cfg('demo_pricing')) {
-        $urls[] = '/cennik';
-    }
-    if (!cfg('demo_content')) {
-        $urls[] = '/pribehy';
-    }
+    $urls = ['/', '/sluzby', '/ako-to-funguje', '/o-nas', '/tipy', '/test-pohybu', '/vek-psa', '/rezervacia', '/kontakt', '/ochrana-osobnych-udajov', '/cookies'];
+    $urls[] = '/cennik';
+    $urls[] = '/pribehy';
     foreach ($GLOBALS['SERVICES'] as $s) {
         $urls[] = '/sluzby/' . $s['slug'];
     }

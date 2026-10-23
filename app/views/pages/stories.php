@@ -3,13 +3,9 @@ meta([
     'title' => 'Príbehy pacientov – pred a po terapii',
     'description' => t('stories_meta'),
 ]);
-if (cfg('demo_content')) {
-    meta(['noindex' => true]);
-}
 $headTitle = t('stories_h1');
 $headLead = t('stories_lead');
 include dirname(__DIR__) . '/partials/page-head.php';
-include dirname(__DIR__) . '/partials/demo-notice.php';
 ?>
 <section class="section section--flush">
   <div class="container">
@@ -18,7 +14,7 @@ include dirname(__DIR__) . '/partials/demo-notice.php';
         <article class="story" data-reveal>
           <div class="compare" data-compare style="--pos:50%">
             <img class="compare__img compare__img--after" src="<?= e(asset($s['after'])) ?>" alt="<?= e($s['alt']) ?> – po terapii" width="800" height="1067" loading="lazy" decoding="async">
-            <img class="compare__img compare__img--before<?= cfg('demo_content') ? ' is-demo' : '' ?>" src="<?= e(asset($s['before'])) ?>" alt="" width="800" height="1067" loading="lazy" decoding="async" aria-hidden="true">
+            <img class="compare__img compare__img--before<?= $s['before'] === $s['after'] ? ' is-demo' : '' ?>" src="<?= e(asset($s['before'])) ?>" alt="" width="800" height="1067" loading="lazy" decoding="async" aria-hidden="true">
             <span class="compare__tag compare__tag--before">Pred</span>
             <span class="compare__tag compare__tag--after">Po</span>
             <span class="compare__handle" aria-hidden="true"></span>
